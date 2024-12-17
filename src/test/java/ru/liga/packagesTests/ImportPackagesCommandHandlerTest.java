@@ -1,15 +1,15 @@
 package ru.liga.packagesTests;
 
 import org.junit.Test;
-import ru.liga.packages.importPackages.ImportPackagesCommandHandler;
-import ru.liga.packages.importPackages.entities.Parcel;
+import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
+import ru.liga.optimalpacking.packages.importpackages.entities.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class PackagesTests {
+public class ImportPackagesCommandHandlerTest {
     @Test
     public void testSimplePacking() throws Exception {
         var importPackagesCommandHandler = new ImportPackagesCommandHandler();

@@ -1,9 +1,9 @@
-package ru.liga.controller;
+package ru.liga.optimalpacking.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.packages.importPackages.ImportPackagesCommand;
-import ru.liga.packages.importPackages.ImportPackagesCommandHandler;
+import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
+import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 
 import java.util.Scanner;
 
@@ -24,9 +24,14 @@ public class ConsoleController {
 
             log.info("Пустые клетки представлены символом ., а заполненные — символом X");
 
-            var response = this.importPackagesCommandHandler.handle(new ImportPackagesCommand(command));
+            try {
+                var response = this.importPackagesCommandHandler.handle(new ImportPackagesCommand(command));
 
-            log.info("Необходимое количество машин: {}", response.getTotalMachinesNeeded());
+                log.info("Необходимое количество машин: {}", response.getTotalMachinesNeeded());
+            }
+            catch (Exception exception) {
+                log.error("Error", exception);
+            }
         }
     }
 }

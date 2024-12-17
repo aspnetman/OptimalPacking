@@ -1,19 +1,17 @@
-package ru.liga.packages.importPackages;
+package ru.liga.optimalpacking.packages.importpackages;
 
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
-import java.io.FileReader;
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Comparator;
-import ru.liga.packages.importPackages.dto.ImportPackagesResponse;
-import ru.liga.packages.importPackages.entities.Parcel;
-import ru.liga.packages.importPackages.entities.Truck;
+import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
+import ru.liga.optimalpacking.packages.importpackages.entities.Parcel;
+import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
 
 @Slf4j
 public class ImportPackagesCommandHandler {
 
-    public ImportPackagesResponse handle(ImportPackagesCommand command) throws Exception {
+    public ImportPackagesResponse handle(ImportPackagesCommand command) {
         // Чтение данных из файла
         List<Parcel> parcels = FileParcer.readParcelsFromFile(command.getPathToFile());
 

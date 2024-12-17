@@ -1,4 +1,4 @@
-package ru.liga.packages.importPackages.entities;
+package ru.liga.optimalpacking.packages.importpackages.entities;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,8 +38,8 @@ public class Truck {
     }
 
     public boolean tryToFitParcel(Parcel parcel) {
-        for (int i = 0; i <= TRUCK_WIDTH - parcel.width; i++) {
-            for (int j = 0; j <= TRUCK_HEIGHT - parcel.height; j++) {
+        for (int i = 0; i <= TRUCK_WIDTH - parcel.getWidth(); i++) {
+            for (int j = 0; j <= TRUCK_HEIGHT - parcel.getHeight(); j++) {
                 if (canPlaceParcelAt(i, j, parcel)) {
                     return true;
                 }
@@ -49,8 +49,8 @@ public class Truck {
     }
 
     public void placeParcel(Parcel parcel) {
-        for (int i = 0; i <= TRUCK_WIDTH - parcel.width; i++) {
-            for (int j = 0; j <= TRUCK_HEIGHT - parcel.height; j++) {
+        for (int i = 0; i <= TRUCK_WIDTH - parcel.getWidth(); i++) {
+            for (int j = 0; j <= TRUCK_HEIGHT - parcel.getHeight(); j++) {
                 if (canPlaceParcelAt(i, j, parcel)) {
                     occupySpace(i, j, parcel);
                     return;
@@ -60,8 +60,8 @@ public class Truck {
     }
 
     private boolean canPlaceParcelAt(int x, int y, Parcel parcel) {
-        for (int i = x; i < x + parcel.width; i++) {
-            for (int j = y; j < y + parcel.height; j++) {
+        for (int i = x; i < x + parcel.getWidth(); i++) {
+            for (int j = y; j < y + parcel.getHeight(); j++) {
                 if (grid[i][j] != '.') {
                     return false;
                 }
@@ -71,8 +71,8 @@ public class Truck {
     }
 
     private void occupySpace(int x, int y, Parcel parcel) {
-        for (int i = x; i < x + parcel.width; i++) {
-            for (int j = y; j < y + parcel.height; j++) {
+        for (int i = x; i < x + parcel.getWidth(); i++) {
+            for (int j = y; j < y + parcel.getHeight(); j++) {
                 grid[i][j] = 'X';
             }
         }
@@ -85,7 +85,7 @@ public class Truck {
             for (int i = 0; i < TRUCK_WIDTH; i++) {
                  gird += grid[i][j];
             }
-            log.info(gird);
+            log.debug(gird);
         }
         log.info(System.lineSeparator());;
     }

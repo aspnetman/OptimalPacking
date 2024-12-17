@@ -2,8 +2,8 @@ package ru.liga;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.liga.controller.ConsoleController;
-import ru.liga.packages.importPackages.ImportPackagesCommandHandler;
+import ru.liga.optimalpacking.controller.ConsoleController;
+import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 
 public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);

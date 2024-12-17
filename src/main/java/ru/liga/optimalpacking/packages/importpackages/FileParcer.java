@@ -1,14 +1,16 @@
-package ru.liga.packages.importPackages;
+package ru.liga.optimalpacking.packages.importpackages;
 
-import ru.liga.packages.importPackages.entities.Parcel;
+import ru.liga.optimalpacking.packages.importpackages.entities.Parcel;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileParcer {
-    public static List<Parcel> readParcelsFromFile(String fileName) throws Exception {
+    public static List<Parcel> readParcelsFromFile(String fileName) {
         List<Parcel> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -20,6 +22,8 @@ public class FileParcer {
 
                 result.add(new Parcel(width, height));
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return result;
