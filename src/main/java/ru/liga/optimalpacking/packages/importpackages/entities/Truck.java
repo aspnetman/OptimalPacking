@@ -1,12 +1,9 @@
 package ru.liga.optimalpacking.packages.importpackages.entities;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 
 @Slf4j
-@Getter
-@Setter
 public class Truck {
     // Для теста пойдут и константы
     private static final int TRUCK_WIDTH = 6;

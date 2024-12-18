@@ -21,30 +21,25 @@
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
         </dependency>
-
-
-        <!--Зависимости для логирования-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.5</version>
+            <version>1.4.14</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.4.5</version>
+            <version>1.4.14</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>2.0.6</version>
         </dependency>
-        <!-- -->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

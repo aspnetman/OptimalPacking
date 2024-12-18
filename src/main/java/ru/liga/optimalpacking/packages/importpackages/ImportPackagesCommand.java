@@ -1,13 +1,8 @@
 package ru.liga.optimalpacking.packages.importpackages;
 
-import lombok.Data;
+import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 
-@Data
-public class ImportPackagesCommand {
+import java.util.List;
 
-    private final String pathToFile;
-
-    public ImportPackagesCommand(String pathToFile) {
-        this.pathToFile = pathToFile;
-    }
+public record ImportPackagesCommand(List<Parcel> parcels) {
 }

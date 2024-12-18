@@ -5,25 +5,23 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
-import ru.liga.optimalpacking.packages.importpackages.entities.Parcel;
+import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
 
 @Slf4j
 public class ImportPackagesCommandHandler {
 
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
-        // Чтение данных из файла
-        List<Parcel> parcels = FileParcer.readParcelsFromFile(command.getPathToFile());
 
         // Сортируем посылки по убыванию площади
-        parcels.sort(Comparator.comparing((Parcel p) -> p.getWidth() * p.getHeight()).reversed());
+        command.parcels().sort(Comparator.comparing((Parcel p) -> p.getWidth() * p.getHeight()).reversed());
 
-        int totalMachinesNeeded = packParcels(parcels);
+        int totalMachinesNeeded = packParcels(command.parcels());
 
         return new ImportPackagesResponse(totalMachinesNeeded);
     }
 
-    public int packParcels(List<Parcel> parcels) {
+    private int packParcels(List<Parcel> parcels) {
 
         if (parcels.isEmpty()){
             return 0;

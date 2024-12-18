@@ -1,9 +1,8 @@
-package ru.liga.optimalpacking.packages.importpackages;
+package ru.liga.optimalpacking.shared;
 
-import ru.liga.optimalpacking.packages.importpackages.entities.Parcel;
+import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
