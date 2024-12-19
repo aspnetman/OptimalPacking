@@ -1,4 +1,4 @@
-package ru.liga.packagesTests;
+package ru.liga.packages.importpackages;
 
 import org.junit.Test;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
