@@ -1,12 +1,8 @@
 package ru.liga.optimalpacking.packages.importpackages.dto;
 
-import lombok.Data;
+import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
 
-@Data
-public class ImportPackagesResponse {
-    private final int totalMachinesNeeded;
+import java.util.List;
 
-    public ImportPackagesResponse(int totalMachinesNeeded) {
-        this.totalMachinesNeeded = totalMachinesNeeded;
-    }
+public record ImportPackagesResponse(List<Truck> filledTrucks) {
 }

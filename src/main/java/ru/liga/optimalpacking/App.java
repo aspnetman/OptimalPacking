@@ -1,21 +1,41 @@
 package ru.liga.optimalpacking;
 
+import an.awesome.pipelinr.Pipeline;
+import an.awesome.pipelinr.Pipelinr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.liga.optimalpacking.controller.ConsoleController;
+import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
+import ru.liga.optimalpacking.packages.importpackages.TrucksRepository;
+import ru.liga.optimalpacking.packages.importpackages.businessRules.CheckFilledTrucksExceededMaxValueBusinessRule;
+import ru.liga.optimalpacking.packages.importpackages.middlewares.ImportPackagesLoggingMiddleware;
+import ru.liga.optimalpacking.packages.shared.middlewares.ExceptionMiddleware;
+
+import java.util.stream.Stream;
 
 public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         logger.info("Стартуем приложение...");
         App.start();
     }
 
-    private static void start() throws Exception {
-        ConsoleController consoleController = new ConsoleController(
-                new ImportPackagesCommandHandler());
+    private static void start() {
+
+        Pipeline pipeline = new Pipelinr()
+                .with(
+                        () -> Stream.of(new ImportPackagesCommandHandler(
+                                new TrucksRepository(),
+                                new ru.liga.optimalpacking.packages.importpackages.businessRules.BusinessRulesChecker(new CheckFilledTrucksExceededMaxValueBusinessRule())),
+                                new ExportPackagesCommandHandler())
+                ).with(
+                        () -> Stream.of(new ExceptionMiddleware(), new ImportPackagesLoggingMiddleware())
+                );
+
+        ConsoleController consoleController = new ConsoleController(pipeline);
+
         consoleController.listen();
     }
 }

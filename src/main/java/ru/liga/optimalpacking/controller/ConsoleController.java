@@ -1,20 +1,19 @@
 package ru.liga.optimalpacking.controller;
 
+import an.awesome.pipelinr.Pipeline;
+import an.awesome.pipelinr.repack.org.checkerframework.checker.units.qual.N;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
-import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
-import ru.liga.optimalpacking.shared.FileParcer;
+import ru.liga.optimalpacking.packages.importpackages.FileParcer;
 
-import java.util.List;
 import java.util.Scanner;
 
 @Slf4j
 @RequiredArgsConstructor
 public class ConsoleController {
 
-    private final ImportPackagesCommandHandler importPackagesCommandHandler;
+    private final Pipeline pipeline;
 
     public void listen() {
         try {
@@ -26,11 +25,7 @@ public class ConsoleController {
                     System.exit(0);
                 }
 
-                log.info("Пустые клетки представлены символом ., а заполненные — символом X");
-
-                var response = importPackagesCommandHandler.handle(new ImportPackagesCommand(FileParcer.readParcelsFromFile(command)));
-
-                log.info("Необходимое количество машин: {}", response.getTotalMachinesNeeded());
+                pipeline.send(new ImportPackagesCommand(FileParcer.readParcelsFromFile(command), null));
             }
         } catch (Exception exception) {
             log.error("Error", exception);

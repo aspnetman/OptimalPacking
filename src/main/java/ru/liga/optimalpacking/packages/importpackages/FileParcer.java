@@ -1,4 +1,4 @@
-package ru.liga.optimalpacking.shared;
+package ru.liga.optimalpacking.packages.importpackages;
 
 import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 

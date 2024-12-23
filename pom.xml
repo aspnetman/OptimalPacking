@@ -42,6 +42,17 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sizovs/pipelinr -->
+        <dependency>
+            <groupId>net.sizovs</groupId>
+            <artifactId>pipelinr</artifactId>
+            <version>0.9</version>
+        </dependency>
     </dependencies>
 
     <build>
