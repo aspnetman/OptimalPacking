@@ -23,9 +23,6 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
     @Override
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
 
-        // Сортируем посылки по убыванию площади
-        command.parcels().sort(Comparator.comparing((Parcel p) -> p.getWidth() * p.getHeight()).reversed());
-
         PackingResult packingResult;
 
         if (command.packingAlgorithm() == PackingAlgorithm.DensePacking) {
