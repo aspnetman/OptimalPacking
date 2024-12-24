@@ -1,4 +1,4 @@
-﻿package ru.liga.optimalpacking.packages.shared.middlewares;
+package ru.liga.optimalpacking.packages.shared.middlewares;
 
 import an.awesome.pipelinr.Command;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-﻿package ru.liga.optimalpacking.packages.shared.businessRules;
+package ru.liga.optimalpacking.packages.shared.businessRules;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

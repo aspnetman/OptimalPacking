@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.liga.optimalpacking.controller.ConsoleController;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
+import ru.liga.optimalpacking.packages.exportpackages.ParcelsRepository;
+import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.TrucksRepository;
 import ru.liga.optimalpacking.packages.importpackages.businessRules.CheckFilledTrucksExceededMaxValueBusinessRule;
@@ -29,7 +31,9 @@ public class App {
                         () -> Stream.of(new ImportPackagesCommandHandler(
                                 new TrucksRepository(),
                                 new ru.liga.optimalpacking.packages.importpackages.businessRules.BusinessRulesChecker(new CheckFilledTrucksExceededMaxValueBusinessRule())),
-                                new ExportPackagesCommandHandler())
+                                new ExportPackagesCommandHandler(
+                                        new TrucksProvider(),
+                                        new ParcelsRepository()))
                 ).with(
                         () -> Stream.of(new ExceptionMiddleware(), new ImportPackagesLoggingMiddleware())
                 );

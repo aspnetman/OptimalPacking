@@ -1,7 +1,7 @@
-﻿package ru.liga.optimalpacking.packages.importpackages.businessRules;
+package ru.liga.optimalpacking.packages.importpackages.businessRules;
 
 import lombok.RequiredArgsConstructor;
-import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.shared.exceptions.InvalidOperationException;
 
 import java.util.List;
@@ -11,8 +11,8 @@ public class BusinessRulesChecker {
 
     private final CheckFilledTrucksExceededMaxValueBusinessRule checkFilledTrucksExceededMaxValueBusinessRule;
 
-    public void checkFilledTrucksExceededMaxValue(List<Truck> filledTrucks, Integer maxTrucks) {
-        var result = checkFilledTrucksExceededMaxValueBusinessRule.validate(filledTrucks, maxTrucks);
+    public void checkFilledTrucksExceededMaxValue(List<Parcel> notPackedParcels) {
+        var result = checkFilledTrucksExceededMaxValueBusinessRule.validate(notPackedParcels);
 
         if (result.getIsBroken()) {
             throw new InvalidOperationException(result.getErrorMessage());

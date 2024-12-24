@@ -1,4 +1,4 @@
-﻿package ru.liga.optimalpacking.packages.shared.exceptions;
+package ru.liga.optimalpacking.packages.shared.exceptions;
 
 import lombok.Getter;
 

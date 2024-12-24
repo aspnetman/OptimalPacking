@@ -15,7 +15,7 @@ public class Truck {
     private static final int TRUCK_WIDTH = 6;
     private static final int TRUCK_HEIGHT = 6;
 
-    private final char[][] grid = new char[TRUCK_WIDTH][TRUCK_HEIGHT];
+    private transient final char[][] grid = new char[TRUCK_WIDTH][TRUCK_HEIGHT];
 
     private final List<Parcel> parcels = new ArrayList<>();
 

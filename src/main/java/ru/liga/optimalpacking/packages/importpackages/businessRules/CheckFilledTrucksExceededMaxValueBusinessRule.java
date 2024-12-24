@@ -1,20 +1,20 @@
-﻿package ru.liga.optimalpacking.packages.importpackages.businessRules;
+package ru.liga.optimalpacking.packages.importpackages.businessRules;
 
-import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
-import ru.liga.optimalpacking.packages.shared.businessRules.BusinessRuleTwoArgs;
+import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.businessRules.BusinessRule;
 import ru.liga.optimalpacking.packages.shared.businessRules.BusinessRuleValidationResult;
 
 import java.util.List;
 
-public class CheckFilledTrucksExceededMaxValueBusinessRule implements BusinessRuleTwoArgs<List<Truck>, Integer> {
+public class CheckFilledTrucksExceededMaxValueBusinessRule implements BusinessRule<List<Parcel>> {
     @Override
-    public BusinessRuleValidationResult validate(List<Truck> trucks, Integer maxTrucks) {
+    public BusinessRuleValidationResult validate(List<Parcel> notPackedParcels) {
         var result = new BusinessRuleValidationResult();
         result.setIsBroken(false);
 
-        if (maxTrucks != null && trucks.size() > maxTrucks) {
+        if (!notPackedParcels.isEmpty()) {
             result.setIsBroken(true);
-            result.setErrorMessage("Количество заполненных грузовиков превышает максимальное значение");
+            result.setErrorMessage("В грузовики не поместилось %d посылок".formatted(notPackedParcels.size()));
         }
 
         return result;
