@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import ru.liga.optimalpacking.packages.importpackages.PackingAlgorithms;
 import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.DensePacking;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +20,7 @@ public class DensePackingTest {
                 new Parcel(1, 1)
         );
 
-        var packingResult = PackingAlgorithms.densePacking(parcels);
+        var packingResult = new DensePacking().pack(parcels);
 
         assertThat(packingResult.trucks())
                 .hasSize(1);
@@ -39,7 +39,7 @@ public class DensePackingTest {
                 new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
         );
 
-        var packingResult = PackingAlgorithms.densePacking(parcels);
+        var packingResult = new DensePacking().pack(parcels);
 
         assertThat(packingResult.trucks())
                 .hasSize(1);
@@ -60,7 +60,7 @@ public class DensePackingTest {
                 new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
         );
 
-        var packingResult = PackingAlgorithms.densePacking(parcels);
+        var packingResult = new DensePacking().pack(parcels);
 
         assertThat(packingResult.trucks())
                 .hasSize(1);

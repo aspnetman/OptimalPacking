@@ -2,9 +2,9 @@ package ru.liga.packages.packingalgorithms;
 
 
 import org.junit.jupiter.api.Test;
-import ru.liga.optimalpacking.packages.importpackages.PackingAlgorithms;
 import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.UniformPacking;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +20,7 @@ public class UniformPackingTest {
                 new Parcel(1, 1)
         );
 
-        var packingResult = PackingAlgorithms.uniformPacking(parcels, 2);
+        var packingResult = new UniformPacking().pack(parcels, 2);
 
         assertThat(packingResult.trucks())
                 .hasSize(2);
@@ -39,7 +39,7 @@ public class UniformPackingTest {
                 new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
         );
 
-        var packingResult = PackingAlgorithms.uniformPacking(parcels, 15);
+        var packingResult = new UniformPacking().pack(parcels, 15);
 
         assertThat(packingResult.trucks())
                 .hasSize(12);
@@ -59,7 +59,7 @@ public class UniformPackingTest {
                 new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
         );
 
-        var packingResult = PackingAlgorithms.uniformPacking(parcels, 10);
+        var packingResult = new UniformPacking().pack(parcels, 10);
 
         assertThat(packingResult.trucks())
                 .hasSize(10);

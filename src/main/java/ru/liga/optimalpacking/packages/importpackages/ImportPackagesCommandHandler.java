@@ -16,17 +16,15 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
 
     private final BusinessRulesChecker businessRulesChecker;
 
+    private final PackingService packingService;
+
     @Override
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
 
-        PackingResult packingResult;
-
-        if (command.packingAlgorithm() == PackingAlgorithm.DensePacking) {
-            packingResult = PackingAlgorithms.densePacking(command.parcels());
-        }
-        else {
-            packingResult = PackingAlgorithms.uniformPacking(command.parcels(), command.maxTrucks());
-        }
+        var packingResult = packingService.pack(
+                command.parcels(),
+                command.maxTrucks(),
+                command.packingAlgorithm());
 
         businessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
 

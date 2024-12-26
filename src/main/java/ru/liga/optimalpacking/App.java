@@ -9,10 +9,13 @@ import ru.liga.optimalpacking.packages.exportpackages.ParcelsRepository;
 import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
 import ru.liga.optimalpacking.packages.importpackages.FileParser;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
+import ru.liga.optimalpacking.packages.importpackages.PackingService;
 import ru.liga.optimalpacking.packages.importpackages.TrucksRepository;
 import ru.liga.optimalpacking.packages.importpackages.businessRules.BusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.businessRules.CheckFilledTrucksExceededMaxValueBusinessRule;
 import ru.liga.optimalpacking.packages.importpackages.middlewares.ImportPackagesLoggingMiddleware;
+import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.DensePacking;
+import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.UniformPacking;
 import ru.liga.optimalpacking.packages.shared.middlewares.ExceptionMiddleware;
 
 import java.util.stream.Stream;
@@ -31,7 +34,8 @@ public class App {
                 .with(
                         () -> Stream.of(new ImportPackagesCommandHandler(
                                         new TrucksRepository(),
-                                        new BusinessRulesChecker(new CheckFilledTrucksExceededMaxValueBusinessRule())),
+                                        new BusinessRulesChecker(new CheckFilledTrucksExceededMaxValueBusinessRule()),
+                                        new PackingService(new DensePacking(), new UniformPacking())),
                                 new ExportPackagesCommandHandler(
                                         new TrucksProvider(),
                                         new ParcelsRepository()))
