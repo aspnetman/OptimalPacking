@@ -1,7 +1,7 @@
 package ru.liga.packages.packingalgorithms;
 
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ru.liga.optimalpacking.packages.importpackages.PackingAlgorithms;
 import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
@@ -9,7 +9,7 @@ import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UniformPackingTest {
 
@@ -22,9 +22,12 @@ public class UniformPackingTest {
 
         var packingResult = PackingAlgorithms.uniformPacking(parcels, 2);
 
-        assertEquals(2, packingResult.trucks().size());
-        assertFalse(packingResult.trucks().get(0).isEmpty());
-        assertFalse(packingResult.trucks().get(1).isEmpty());
+        assertThat(packingResult.trucks())
+                .hasSize(2);
+        assertThat(packingResult.trucks().get(0).isEmpty())
+                .isFalse();
+        assertThat(packingResult.trucks().get(1).isEmpty())
+                .isFalse();
     }
 
     @Test
@@ -38,9 +41,11 @@ public class UniformPackingTest {
 
         var packingResult = PackingAlgorithms.uniformPacking(parcels, 15);
 
-        assertEquals(12, packingResult.trucks().size());
+        assertThat(packingResult.trucks())
+                .hasSize(12);
         for (Truck truck : packingResult.trucks()) {
-            assertFalse(truck.isEmpty());
+            assertThat(truck.isEmpty())
+                    .isFalse();
         }
     }
 
@@ -56,9 +61,11 @@ public class UniformPackingTest {
 
         var packingResult = PackingAlgorithms.uniformPacking(parcels, 10);
 
-        assertEquals(10, packingResult.trucks().size());
+        assertThat(packingResult.trucks())
+                .hasSize(10);
         for (Truck truck : packingResult.trucks()) {
-            assertFalse(truck.isEmpty());
+            assertThat(truck.isEmpty())
+                    .isFalse();
         }
     }
 }

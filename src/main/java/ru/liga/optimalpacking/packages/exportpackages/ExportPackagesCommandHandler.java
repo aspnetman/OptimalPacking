@@ -4,9 +4,14 @@ import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.exportpackages.dto.ExportPackagesResponse;
 
-// Принимает загруженные машины и отдаёт на выход файл со списком посылок
+/**
+ * Принимает загруженные машины и отдаёт на выход файл со списком посылок
+  */
+
 @RequiredArgsConstructor
 public class ExportPackagesCommandHandler implements Command.Handler<ExportPackagesCommand, ExportPackagesResponse> {
+
+    private static final String fileName = "parcels.json";
 
     private final TrucksProvider trucksProvider;
 
@@ -14,8 +19,6 @@ public class ExportPackagesCommandHandler implements Command.Handler<ExportPacka
 
     @Override
     public ExportPackagesResponse handle(ExportPackagesCommand exportPackagesCommand) {
-
-        String fileName = "parcels.json";
 
         parcelsRepository.writeParcelsFromTrucksToFile(
                 trucksProvider.getTrucksFromJson(exportPackagesCommand.trucksJson()),

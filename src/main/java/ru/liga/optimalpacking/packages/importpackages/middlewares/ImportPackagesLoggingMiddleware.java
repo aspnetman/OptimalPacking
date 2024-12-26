@@ -15,11 +15,10 @@ public class ImportPackagesLoggingMiddleware implements Command.Middleware {
 
             var result = next.invoke();
 
-            log.info("Необходимое количество машин: {}", ((ImportPackagesResponse)result).filledTrucks().size());
+            log.info("Необходимое количество машин: {}", ((ImportPackagesResponse) result).filledTrucks().size());
 
             return result;
-        }
-        else {
+        } else {
             return next.invoke();
         }
     }

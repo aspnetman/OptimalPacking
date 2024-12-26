@@ -2,7 +2,6 @@ package ru.liga.optimalpacking.packages.shared.middlewares;
 
 import an.awesome.pipelinr.Command;
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.optimalpacking.packages.shared.exceptions.InvalidOperationException;
 
 @Slf4j
 public class ExceptionMiddleware implements Command.Middleware {
@@ -13,12 +12,8 @@ public class ExceptionMiddleware implements Command.Middleware {
 
         try {
             result = next.invoke();
-        }
-        catch (InvalidOperationException invalidOperationException) {
-            log.error(invalidOperationException.getMessage(), invalidOperationException);
-        }
-        catch (Exception exception) {
-            log.error("Error", exception);
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
         }
 
         return result;

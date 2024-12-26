@@ -1,14 +1,15 @@
 package ru.liga.packages.packingalgorithms;
 
-import org.junit.Test;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import ru.liga.optimalpacking.packages.importpackages.PackingAlgorithms;
 import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DensePackingTest {
 
@@ -21,8 +22,12 @@ public class DensePackingTest {
 
         var packingResult = PackingAlgorithms.densePacking(parcels);
 
-        assertEquals(1, packingResult.trucks().size());
-        assertFalse(packingResult.trucks().get(0).isEmpty());
+        assertThat(packingResult.trucks())
+                .hasSize(1);
+        assertThat(packingResult.trucks())
+                .hasSize(1);
+        assertThat(packingResult.trucks().get(0).isEmpty())
+                .isFalse();
     }
 
     @Test
@@ -36,9 +41,12 @@ public class DensePackingTest {
 
         var packingResult = PackingAlgorithms.densePacking(parcels);
 
-        assertEquals(1, packingResult.trucks().size());
+        assertThat(packingResult.trucks())
+                .hasSize(1);
+
         for (Truck truck : packingResult.trucks()) {
-            assertFalse(truck.isEmpty());
+            assertThat(truck.isEmpty())
+                    .isFalse();
         }
     }
 
@@ -54,9 +62,11 @@ public class DensePackingTest {
 
         var packingResult = PackingAlgorithms.densePacking(parcels);
 
-        assertEquals(1, packingResult.trucks().size());
+        assertThat(packingResult.trucks())
+                .hasSize(1);
         for (Truck truck : packingResult.trucks()) {
-            assertFalse(truck.isEmpty());
+            assertThat(truck.isEmpty())
+                    .isFalse();
         }
     }
 }
