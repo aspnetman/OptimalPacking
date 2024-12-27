@@ -1,21 +1,50 @@
 package ru.liga.optimalpacking;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import an.awesome.pipelinr.Pipeline;
+import an.awesome.pipelinr.Pipelinr;
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.optimalpacking.controller.ConsoleController;
+import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
+import ru.liga.optimalpacking.packages.exportpackages.ParcelsRepository;
+import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
+import ru.liga.optimalpacking.packages.importpackages.FileParser;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
+import ru.liga.optimalpacking.packages.importpackages.PackingService;
+import ru.liga.optimalpacking.packages.importpackages.TrucksRepository;
+import ru.liga.optimalpacking.packages.importpackages.businessRules.BusinessRulesChecker;
+import ru.liga.optimalpacking.packages.importpackages.businessRules.CheckFilledTrucksExceededMaxValueBusinessRule;
+import ru.liga.optimalpacking.packages.importpackages.middlewares.ImportPackagesLoggingMiddleware;
+import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.DensePacking;
+import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.UniformPacking;
+import ru.liga.optimalpacking.packages.shared.middlewares.ExceptionMiddleware;
 
+import java.util.stream.Stream;
+
+@Slf4j
 public class App {
-    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
-    public static void main(String[] args) throws Exception {
-        logger.info("Стартуем приложение...");
+    public static void main(String[] args) {
+        log.info("Стартуем приложение...");
         App.start();
     }
 
-    private static void start() throws Exception {
-        ConsoleController consoleController = new ConsoleController(
-                new ImportPackagesCommandHandler());
+    private static void start() {
+
+        Pipeline pipeline = new Pipelinr()
+                .with(
+                        () -> Stream.of(new ImportPackagesCommandHandler(
+                                        new TrucksRepository(),
+                                        new BusinessRulesChecker(new CheckFilledTrucksExceededMaxValueBusinessRule()),
+                                        new PackingService(new DensePacking(), new UniformPacking())),
+                                new ExportPackagesCommandHandler(
+                                        new TrucksProvider(),
+                                        new ParcelsRepository()))
+                ).with(
+                        () -> Stream.of(new ExceptionMiddleware(), new ImportPackagesLoggingMiddleware())
+                );
+
+        ConsoleController consoleController = new ConsoleController(pipeline, new FileParser());
+
         consoleController.listen();
     }
 }

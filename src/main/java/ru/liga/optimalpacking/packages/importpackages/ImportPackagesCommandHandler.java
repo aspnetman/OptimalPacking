@@ -1,58 +1,35 @@
 package ru.liga.optimalpacking.packages.importpackages;
 
+import an.awesome.pipelinr.Command;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Comparator;
+import ru.liga.optimalpacking.packages.importpackages.businessRules.BusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
-import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
+import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
 
 @Slf4j
-public class ImportPackagesCommandHandler {
+@RequiredArgsConstructor
+public class ImportPackagesCommandHandler implements Command.Handler<ImportPackagesCommand, ImportPackagesResponse> {
 
+    private final TrucksRepository trucksRepository;
+
+    private final BusinessRulesChecker businessRulesChecker;
+
+    private final PackingService packingService;
+
+    @Override
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
 
-        // Сортируем посылки по убыванию площади
-        command.parcels().sort(Comparator.comparing((Parcel p) -> p.getWidth() * p.getHeight()).reversed());
+        var packingResult = packingService.pack(
+                command.parcels(),
+                command.maxTrucks(),
+                command.packingAlgorithm());
 
-        int totalMachinesNeeded = packParcels(command.parcels());
+        businessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
 
-        return new ImportPackagesResponse(totalMachinesNeeded);
-    }
+        trucksRepository.saveResultsToJson(packingResult.trucks(), "results.json");
 
-    private int packParcels(List<Parcel> parcels) {
-
-        if (parcels.isEmpty()){
-            return 0;
-        }
-
-        List<Truck> filledTrucks = new ArrayList<>(); // Список заполненных грузовиков
-        int machinesUsed = 1;
-        Truck currentTruck = new Truck();
-
-        for (Parcel parcel : parcels) {
-            if (!currentTruck.tryToFitParcel(parcel)) {
-                if (currentTruck.isEmpty()) {
-                    continue; // Пропустить создание новой машины, если текущая машина пустая
-                }
-                machinesUsed++;
-                currentTruck = new Truck();
-            }
-            if (currentTruck.tryToFitParcel(parcel)) {
-                currentTruck.placeParcel(parcel);
-                currentTruck.printGrid();
-            }
-
-            if (!currentTruck.isEmpty()) {
-                filledTrucks.add(currentTruck);
-            }
-        }
-
-        if (filledTrucks.isEmpty()) {
-            machinesUsed = 0;
-        }
-
-        return machinesUsed;
+        return new ImportPackagesResponse(packingResult.trucks());
     }
 }

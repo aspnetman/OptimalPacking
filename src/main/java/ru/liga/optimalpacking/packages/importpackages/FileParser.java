@@ -1,4 +1,4 @@
-package ru.liga.optimalpacking.shared;
+package ru.liga.optimalpacking.packages.importpackages;
 
 import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 
@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileParcer {
-    public static List<Parcel> readParcelsFromFile(String fileName) {
+public class FileParser {
+    public List<Parcel> readParcelsFromFile(String fileName) {
         List<Parcel> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {

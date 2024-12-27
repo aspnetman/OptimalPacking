@@ -1,17 +1,30 @@
 package ru.liga.optimalpacking.packages.importpackages.entities;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 @Slf4j
+@Getter
 public class Truck {
     // Для теста пойдут и константы
     private static final int TRUCK_WIDTH = 6;
     private static final int TRUCK_HEIGHT = 6;
 
-    private char[][] grid = new char[TRUCK_WIDTH][TRUCK_HEIGHT];
+    private transient final char[][] grid;
+
+    private final List<Parcel> parcels;
+
+    private final String id;
 
     public Truck() {
+        grid = new char[TRUCK_WIDTH][TRUCK_HEIGHT];
+        parcels = new ArrayList<>();
+        id = UUID.randomUUID().toString();
         initializeGrid();
     }
 
@@ -50,6 +63,7 @@ public class Truck {
             for (int j = 0; j <= TRUCK_HEIGHT - parcel.getHeight(); j++) {
                 if (canPlaceParcelAt(i, j, parcel)) {
                     occupySpace(i, j, parcel);
+                    parcels.add(parcel);
                     return;
                 }
             }
@@ -75,15 +89,4 @@ public class Truck {
         }
     }
 
-    public void printGrid() {
-        log.info("Текущий вид кузова:");
-        var gird = "";
-        for (int j = 0; j < TRUCK_HEIGHT; j++) {
-            for (int i = 0; i < TRUCK_WIDTH; i++) {
-                 gird += grid[i][j];
-            }
-            log.debug(gird);
-        }
-        log.info(System.lineSeparator());;
-    }
 }
