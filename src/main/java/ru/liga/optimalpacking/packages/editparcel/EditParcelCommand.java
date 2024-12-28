@@ -1,0 +1,8 @@
+package ru.liga.optimalpacking.packages.editparcel;
+
+import an.awesome.pipelinr.Command;
+import ru.liga.optimalpacking.packages.editparcel.dto.EditParcelResponse;
+import ru.liga.optimalpacking.packages.editparcel.dto.Parcel;
+
+public record EditParcelCommand(String name, Parcel parcel) implements Command<EditParcelResponse> {
+}

@@ -1,6 +1,7 @@
 package ru.liga.optimalpacking.packages.exportpackages.entities;
 
 import lombok.Getter;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 import java.util.List;
 import java.util.UUID;
