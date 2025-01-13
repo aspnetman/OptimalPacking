@@ -1,12 +1,12 @@
 package ru.liga.packages.packingalgorithms;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
-import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
+import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
 import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.DensePacking;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,59 +14,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DensePackingTest {
 
     @Test
-    public void testDensePackingWithSmallNumberOfParcels() {
-        List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1),
-                new Parcel(1, 1)
-        );
+    void testPackingWithSmallParcels() {
+        List<Parcel> parcels = new ArrayList<>();
+        parcels.add(new Parcel("Parcel1", new char[][]{{'#'}, {'#'}}, '#', 1, 2));
+        parcels.add(new Parcel("Parcel2", new char[][]{{'#', '#'}, {' ', '#'}}, '#', 2, 2));
+        parcels.add(new Parcel("Parcel3", new char[][]{{'#', '#', '#'}, {'#', '#', '#'}}, '#', 3, 2));
 
-        var packingResult = new DensePacking().pack(parcels);
+        DensePacking packingAlgorithm = new DensePacking();
+        PackingResult result = packingAlgorithm.pack(parcels);
 
-        assertThat(packingResult.trucks())
-                .hasSize(1);
-        assertThat(packingResult.trucks())
-                .hasSize(1);
-        assertThat(packingResult.trucks().get(0).isEmpty())
-                .isFalse();
+        assertThat(result.trucks()).hasSize(1);
+        assertThat(result.notPackedParcels()).isEmpty();
     }
 
-    @Test
-    public void testDensePackingWithLargeNumberOfParcels() {
-        List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
-        );
 
-        var packingResult = new DensePacking().pack(parcels);
+        @Test
+        void testPackingWithLargeParcels() {
+            List<Parcel> parcels = new ArrayList<>();
+            parcels.add(new Parcel("Parcel1", new char[][]{{'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}},
+                    '#', 10, 1));
+            parcels.add(new Parcel("Parcel2", new char[][]{{'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}},
+                    '#', 10, 1));
+            parcels.add(new Parcel("Parcel3", new char[][]{{'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}},
+                    '#', 10, 1));
 
-        assertThat(packingResult.trucks())
-                .hasSize(1);
+            DensePacking packingAlgorithm = new DensePacking();
+            PackingResult result = packingAlgorithm.pack(parcels);
 
-        for (Truck truck : packingResult.trucks()) {
-            assertThat(truck.isEmpty())
-                    .isFalse();
-        }
+            assertThat(result.trucks()).hasSize(3);
+            assertThat(result.notPackedParcels()).isEmpty();
     }
 
-    @Test
-    public void testDensePackingWithOverloadedParcels() {
-        List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
-        );
+            @Test
+            void testPackingWithMixedSizeParcels() {
+                List<Parcel> parcels = new ArrayList<>();
+                parcels.add(new Parcel("Parcel1", new char[][]{{'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}},
+                        '#', 10, 1));
+                parcels.add(new Parcel("Parcel2", new char[][]{{'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}},
+                        '#', 10, 1));
+                parcels.add(new Parcel("Parcel3", new char[][]{{'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}},
+                        '#', 10, 1));
 
-        var packingResult = new DensePacking().pack(parcels);
+                DensePacking packingAlgorithm = new DensePacking();
+                PackingResult result = packingAlgorithm.pack(parcels);
 
-        assertThat(packingResult.trucks())
-                .hasSize(1);
-        for (Truck truck : packingResult.trucks()) {
-            assertThat(truck.isEmpty())
-                    .isFalse();
-        }
+                assertThat(result.trucks()).hasSize(3);
+                assertThat(result.notPackedParcels()).isEmpty();
     }
 }

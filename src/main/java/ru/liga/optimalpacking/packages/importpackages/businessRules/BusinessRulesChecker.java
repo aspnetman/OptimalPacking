@@ -1,7 +1,7 @@
 package ru.liga.optimalpacking.packages.importpackages.businessRules;
 
 import lombok.RequiredArgsConstructor;
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.shared.exceptions.InvalidOperationException;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package ru.liga.optimalpacking.packages.importpackages;
 
 import lombok.AllArgsConstructor;
 import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
 import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.DensePacking;
 import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.UniformPacking;

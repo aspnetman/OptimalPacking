@@ -1,30 +1,28 @@
 package ru.liga.optimalpacking.packages.importpackages;
 
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class FileParser {
     public List<Parcel> readParcelsFromFile(String fileName) {
-        List<Parcel> result = new ArrayList<>();
+        try {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Parcel>>() {
+            }.getType();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                int width = Integer.parseInt(parts[0].trim());
-                int height = Integer.parseInt(parts[1].trim());
-
-                result.add(new Parcel(width, height));
+            try (FileReader reader = new FileReader(fileName)) {
+                return gson.fromJson(reader, listType);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
-
-        return result;
     }
 }

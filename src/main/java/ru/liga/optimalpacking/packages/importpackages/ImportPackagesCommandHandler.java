@@ -18,11 +18,15 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
 
     private final PackingService packingService;
 
+    private final FileParser fileParser;
+
     @Override
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
 
+        var parcels = fileParser.readParcelsFromFile(command.file());
+
         var packingResult = packingService.pack(
-                command.parcels(),
+                fileParser.readParcelsFromFile(command.file()),
                 command.maxTrucks(),
                 command.packingAlgorithm());
 

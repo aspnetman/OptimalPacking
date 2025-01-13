@@ -1,6 +1,6 @@
 package ru.liga.optimalpacking.packages.importpackages.businessRules;
 
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.shared.businessRules.BusinessRule;
 import ru.liga.optimalpacking.packages.shared.businessRules.BusinessRuleValidationResult;
 

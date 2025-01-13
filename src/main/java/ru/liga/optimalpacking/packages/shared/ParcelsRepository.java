@@ -23,6 +23,7 @@ public class ParcelsRepository {
     }
 
     public void editParcel(String name, Parcel parcel) {
-        parcelsMap.put(name, parcel);
+        parcelsMap.remove(name);
+        parcelsMap.put(parcel.name(), parcel);
     }
 }
