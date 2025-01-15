@@ -2,7 +2,7 @@ package ru.liga.optimalpacking.packages.editparcel;
 
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
-import ru.liga.optimalpacking.packages.editparcel.businessRules.BusinessRulesChecker;
+import ru.liga.optimalpacking.packages.editparcel.businessrules.BusinessRulesChecker;
 import ru.liga.optimalpacking.packages.editparcel.dto.EditParcelResponse;
 
 @RequiredArgsConstructor

@@ -1,8 +1,8 @@
-package ru.liga.optimalpacking.packages.importpackages.packingAlgorithms;
+package ru.liga.optimalpacking.packages.importpackages.packingalgorithms;
 
-import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,11 @@ public class UniformPacking {
      * Это полезно, когда важно минимизировать разницу в загруженности машин.
      *
      * @param parcels
+     * Посылки для загрузки
      * @param maxTrucks
+     * Максимальное количество грузовиков
      * @return
+     * Результат загрузки
      */
     public PackingResult pack(List<Parcel> parcels, Integer maxTrucks) {
         List<Truck> trucks = new ArrayList<>();

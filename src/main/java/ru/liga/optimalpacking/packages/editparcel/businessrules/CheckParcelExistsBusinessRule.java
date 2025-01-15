@@ -1,4 +1,4 @@
-package ru.liga.optimalpacking.packages.editparcel.businessRules;
+package ru.liga.optimalpacking.packages.editparcel.businessrules;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.editparcel.ParcelsRepository;

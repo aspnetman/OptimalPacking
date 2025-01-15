@@ -3,9 +3,9 @@ package ru.liga.packages.packingalgorithms;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
-import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.UniformPacking;
+import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.UniformPacking;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.liga.optimalpacking.packages.deleteparcel.businessRules;
+package ru.liga.optimalpacking.packages.deleteparcel.businessrules;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.shared.exceptions.NotFoundException;

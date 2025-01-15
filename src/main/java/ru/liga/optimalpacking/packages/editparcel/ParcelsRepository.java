@@ -5,6 +5,7 @@ import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 @RequiredArgsConstructor
 public class ParcelsRepository {
+
     private final ru.liga.optimalpacking.packages.shared.ParcelsRepository parcelsRepository;
 
     public void editParcel(String name, Parcel parcel) {
