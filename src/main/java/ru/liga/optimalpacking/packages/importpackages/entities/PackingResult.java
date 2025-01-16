@@ -1,6 +1,6 @@
 package ru.liga.optimalpacking.packages.importpackages.entities;
 
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 import java.util.List;
 
