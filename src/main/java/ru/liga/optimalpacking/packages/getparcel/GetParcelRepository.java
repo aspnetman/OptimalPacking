@@ -1,16 +1,14 @@
-package ru.liga.optimalpacking.packages.getparcels;
+package ru.liga.optimalpacking.packages.getparcel;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
-import java.util.List;
-
 @RequiredArgsConstructor
-public class ParcelsRepository {
+public class GetParcelRepository {
 
     private final ru.liga.optimalpacking.packages.shared.ParcelsRepository parcelsRepository;
 
-    public List<Parcel> getParcels() {
-        return parcelsRepository.getParcels();
+    public Parcel getParcel(String name) {
+        return parcelsRepository.getParcel(name);
     }
 }

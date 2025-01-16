@@ -8,7 +8,7 @@ import ru.liga.optimalpacking.packages.editparcel.dto.EditParcelResponse;
 @RequiredArgsConstructor
 public class EditParcelCommandHandler implements Command.Handler<EditParcelCommand, EditParcelResponse> {
 
-    private final ParcelsRepository parcelsRepository;
+    private final EditParcelsRepository editParcelsRepository;
 
     private final BusinessRulesChecker businessRulesChecker;
 
@@ -19,7 +19,7 @@ public class EditParcelCommandHandler implements Command.Handler<EditParcelComma
 
         businessRulesChecker.checkParcelExists(editParcelCommand.name());
 
-        parcelsRepository.editParcel(
+        editParcelsRepository.editParcel(
                 editParcelCommand.name(),
                 mapper.toEntity(editParcelCommand.parcel()));
 

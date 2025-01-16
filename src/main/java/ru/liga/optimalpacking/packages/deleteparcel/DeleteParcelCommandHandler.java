@@ -8,7 +8,7 @@ import ru.liga.optimalpacking.packages.deleteparcel.dto.DeleteParcelResponse;
 @RequiredArgsConstructor
 public class DeleteParcelCommandHandler implements Command.Handler<DeleteParcelCommand, DeleteParcelResponse> {
 
-    private final ParcelsRepository parcelsRepository;
+    private final DeleteParcelsRepository deleteParcelsRepository;
 
     private final BusinessRulesChecker businessRulesChecker;
 
@@ -17,7 +17,7 @@ public class DeleteParcelCommandHandler implements Command.Handler<DeleteParcelC
 
         businessRulesChecker.checkParcelExists(deleteParcelCommand.name());
 
-        parcelsRepository.deleteParcel(deleteParcelCommand.name());
+        deleteParcelsRepository.deleteParcel(deleteParcelCommand.name());
 
         return new DeleteParcelResponse();
     }

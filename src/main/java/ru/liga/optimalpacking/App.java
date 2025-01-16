@@ -10,14 +10,18 @@ import ru.liga.optimalpacking.infrastructure.cli.OptionsFactory;
 import ru.liga.optimalpacking.infrastructure.controller.OptimalPackingController;
 import ru.liga.optimalpacking.infrastructure.telegram.TelegramController;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommandHandler;
+import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelsRepository;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.CheckParcelExistsBusinessRule;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommandHandler;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelMapperImpl;
+import ru.liga.optimalpacking.packages.editparcel.EditParcelsRepository;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.exportpackages.ParcelsRepository;
 import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
 import ru.liga.optimalpacking.packages.getparcel.GetParcelQueryHandler;
+import ru.liga.optimalpacking.packages.getparcel.GetParcelRepository;
 import ru.liga.optimalpacking.packages.getparcels.GetParcelsQueryHandler;
+import ru.liga.optimalpacking.packages.getparcels.GetParcelsRepository;
 import ru.liga.optimalpacking.packages.importpackages.FileParcelsReader;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.PackingService;
@@ -52,8 +56,8 @@ public class App {
                         HashMap::putAll);
 
         var sharedParcelsRepository = new ru.liga.optimalpacking.packages.shared.ParcelsRepository(initParcels);
-        var deleteParcelsRepository = new ru.liga.optimalpacking.packages.deleteparcel.ParcelsRepository(sharedParcelsRepository);
-        var editParcelsRepository = new ru.liga.optimalpacking.packages.editparcel.ParcelsRepository(sharedParcelsRepository);
+        var deleteParcelsRepository = new DeleteParcelsRepository(sharedParcelsRepository);
+        var editParcelsRepository = new EditParcelsRepository(sharedParcelsRepository);
 
         Pipeline pipeline = new Pipelinr()
                 .with(
@@ -66,9 +70,9 @@ public class App {
                                         new TrucksProvider(),
                                         new ParcelsRepository()),
                                 new GetParcelQueryHandler(
-                                        new ru.liga.optimalpacking.packages.getparcel.ParcelsRepository(sharedParcelsRepository)),
+                                        new GetParcelRepository(sharedParcelsRepository)),
                                 new GetParcelsQueryHandler(
-                                        new ru.liga.optimalpacking.packages.getparcels.ParcelsRepository(sharedParcelsRepository)),
+                                        new GetParcelsRepository(sharedParcelsRepository)),
                                 new DeleteParcelCommandHandler(
                                         deleteParcelsRepository,
                                         new ru.liga.optimalpacking.packages.deleteparcel.businessrules.BusinessRulesChecker(

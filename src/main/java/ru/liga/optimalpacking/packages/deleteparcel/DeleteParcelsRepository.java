@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 @RequiredArgsConstructor
-public class ParcelsRepository {
+public class DeleteParcelsRepository {
 
     private final ru.liga.optimalpacking.packages.shared.ParcelsRepository parcelsRepository;
 

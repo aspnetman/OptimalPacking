@@ -7,10 +7,10 @@ import ru.liga.optimalpacking.packages.getparcels.dto.GetParcelsResponse;
 @RequiredArgsConstructor
 public class GetParcelsQueryHandler implements Command.Handler<GetParcelsQuery, GetParcelsResponse> {
 
-    private final ParcelsRepository parcelsRepository;
+    private final GetParcelsRepository getParcelsRepository;
 
     @Override
     public GetParcelsResponse handle(GetParcelsQuery getParcelsQuery) {
-        return new GetParcelsResponse(parcelsRepository.getParcels());
+        return new GetParcelsResponse(getParcelsRepository.getParcels());
     }
 }
