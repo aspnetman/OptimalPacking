@@ -1,4 +1,4 @@
-﻿package ru.liga.optimalpacking.infrastructure.telegram;
+package ru.liga.optimalpacking.infrastructure.telegram;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
