@@ -2,16 +2,18 @@ package ru.liga.optimalpacking.packages.importpackages;
 
 import lombok.AllArgsConstructor;
 import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
-import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.DensePacking;
-import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.UniformPacking;
+import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.DensePacking;
+import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.UniformPacking;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 import java.util.List;
 
 @AllArgsConstructor
 public class PackingService {
+
     private final DensePacking densePacking;
+
     private final UniformPacking uniformPacking;
 
     public PackingResult pack(List<Parcel> parcels, Integer maxTrucks, PackingAlgorithm algorithm) {

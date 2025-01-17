@@ -2,9 +2,9 @@ package ru.liga.packages.packingalgorithms;
 
 
 import org.junit.jupiter.api.Test;
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
-import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.UniformPacking;
+import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.UniformPacking;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +16,8 @@ public class UniformPackingTest {
     @Test
     public void testUniformPackingWithSmallNumberOfParcels() {
         List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1),
-                new Parcel(1, 1)
+                new Parcel("", null, 'X', 1, 1),
+                new Parcel("", null, 'X',1, 1)
         );
 
         var packingResult = new UniformPacking().pack(parcels, 2);
@@ -33,10 +33,18 @@ public class UniformPackingTest {
     @Test
     public void testUniformPackingWithLargeNumberOfParcels() {
         List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1)
         );
 
         var packingResult = new UniformPacking().pack(parcels, 15);
@@ -52,11 +60,21 @@ public class UniformPackingTest {
     @Test
     public void testUniformPackingWithMaxTrucksLimit() {
         List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1)
         );
 
         var packingResult = new UniformPacking().pack(parcels, 10);

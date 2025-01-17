@@ -1,8 +1,8 @@
-package ru.liga.optimalpacking.packages.importpackages.businessRules;
+package ru.liga.optimalpacking.packages.importpackages.businessrules;
 
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.shared.businessRules.BusinessRule;
 import ru.liga.optimalpacking.packages.shared.businessRules.BusinessRuleValidationResult;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 import java.util.List;
 

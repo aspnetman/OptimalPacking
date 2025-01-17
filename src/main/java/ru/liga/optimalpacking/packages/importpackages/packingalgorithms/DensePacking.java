@@ -1,6 +1,6 @@
-package ru.liga.optimalpacking.packages.importpackages.packingAlgorithms;
+package ru.liga.optimalpacking.packages.importpackages.packingalgorithms;
 
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
 

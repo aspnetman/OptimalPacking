@@ -1,13 +1,13 @@
-package ru.liga.optimalpacking.packages.importpackages.businessRules;
+package ru.liga.optimalpacking.packages.importpackages.businessrules;
 
 import lombok.RequiredArgsConstructor;
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 import ru.liga.optimalpacking.packages.shared.exceptions.InvalidOperationException;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class BusinessRulesChecker {
+public class ImportPackagesBusinessRulesChecker {
 
     private final CheckFilledTrucksExceededMaxValueBusinessRule checkFilledTrucksExceededMaxValueBusinessRule;
 

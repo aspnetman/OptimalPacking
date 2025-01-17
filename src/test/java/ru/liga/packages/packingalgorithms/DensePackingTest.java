@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import ru.liga.optimalpacking.packages.importpackages.dto.Parcel;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
-import ru.liga.optimalpacking.packages.importpackages.packingAlgorithms.DensePacking;
+import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.DensePacking;
+import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,8 +16,8 @@ public class DensePackingTest {
     @Test
     public void testDensePackingWithSmallNumberOfParcels() {
         List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1),
-                new Parcel(1, 1)
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1)
         );
 
         var packingResult = new DensePacking().pack(parcels);
@@ -33,10 +33,18 @@ public class DensePackingTest {
     @Test
     public void testDensePackingWithLargeNumberOfParcels() {
         List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1)
         );
 
         var packingResult = new DensePacking().pack(parcels);
@@ -53,11 +61,21 @@ public class DensePackingTest {
     @Test
     public void testDensePackingWithOverloadedParcels() {
         List<Parcel> parcels = Arrays.asList(
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1),
-                new Parcel(1, 1), new Parcel(1, 1), new Parcel(1, 1)
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1),
+                new Parcel("", null, 'X',1, 1)
         );
 
         var packingResult = new DensePacking().pack(parcels);

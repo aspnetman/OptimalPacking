@@ -3,10 +3,8 @@ package ru.liga.optimalpacking.packages.importpackages;
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.optimalpacking.packages.importpackages.businessRules.BusinessRulesChecker;
+import ru.liga.optimalpacking.packages.importpackages.businessrules.ImportPackagesBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
-import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
-import ru.liga.optimalpacking.packages.importpackages.entities.PackingResult;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -14,19 +12,21 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
 
     private final TrucksRepository trucksRepository;
 
-    private final BusinessRulesChecker businessRulesChecker;
+    private final ImportPackagesBusinessRulesChecker importPackagesBusinessRulesChecker;
 
     private final PackingService packingService;
+
+    private final FileParcelsReader fileParcelsReader;
 
     @Override
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
 
         var packingResult = packingService.pack(
-                command.parcels(),
+                fileParcelsReader.readParcelsFromFile(command.file()),
                 command.maxTrucks(),
                 command.packingAlgorithm());
 
-        businessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
+        importPackagesBusinessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
 
         trucksRepository.saveResultsToJson(packingResult.trucks(), "results.json");
 
