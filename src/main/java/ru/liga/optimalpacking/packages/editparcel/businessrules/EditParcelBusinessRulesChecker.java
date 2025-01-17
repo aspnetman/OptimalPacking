@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.shared.exceptions.NotFoundException;
 
 @RequiredArgsConstructor
-public class BusinessRulesChecker {
+public class EditParcelBusinessRulesChecker {
     private final CheckParcelExistsBusinessRule checkParcelExistsBusinessRule;
 
     public void checkParcelExists(String parcelName) {

@@ -12,9 +12,11 @@ import ru.liga.optimalpacking.infrastructure.telegram.TelegramController;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommandHandler;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelsRepository;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.CheckParcelExistsBusinessRule;
+import ru.liga.optimalpacking.packages.deleteparcel.businessrules.DeleteParcelBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommandHandler;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelMapperImpl;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelsRepository;
+import ru.liga.optimalpacking.packages.editparcel.businessrules.EditParcelBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.exportpackages.ParcelsRepository;
 import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
@@ -26,8 +28,8 @@ import ru.liga.optimalpacking.packages.importpackages.FileParcelsReader;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.PackingService;
 import ru.liga.optimalpacking.packages.importpackages.TrucksRepository;
-import ru.liga.optimalpacking.packages.importpackages.businessrules.BusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.businessrules.CheckFilledTrucksExceededMaxValueBusinessRule;
+import ru.liga.optimalpacking.packages.importpackages.businessrules.ImportPackagesBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.middlewares.ImportPackagesLoggingMiddleware;
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.DensePacking;
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.UniformPacking;
@@ -63,7 +65,7 @@ public class App {
                 .with(
                         () -> Stream.of(new ImportPackagesCommandHandler(
                                         new TrucksRepository(),
-                                        new BusinessRulesChecker(new CheckFilledTrucksExceededMaxValueBusinessRule()),
+                                        new ImportPackagesBusinessRulesChecker(new CheckFilledTrucksExceededMaxValueBusinessRule()),
                                         new PackingService(new DensePacking(), new UniformPacking()),
                                         new FileParcelsReader()),
                                 new ExportPackagesCommandHandler(
@@ -75,11 +77,11 @@ public class App {
                                         new GetParcelsRepository(sharedParcelsRepository)),
                                 new DeleteParcelCommandHandler(
                                         deleteParcelsRepository,
-                                        new ru.liga.optimalpacking.packages.deleteparcel.businessrules.BusinessRulesChecker(
+                                        new DeleteParcelBusinessRulesChecker(
                                                 new CheckParcelExistsBusinessRule(deleteParcelsRepository))),
                                 new EditParcelCommandHandler(
                                         editParcelsRepository,
-                                        new ru.liga.optimalpacking.packages.editparcel.businessrules.BusinessRulesChecker(
+                                        new EditParcelBusinessRulesChecker(
                                                 new ru.liga.optimalpacking.packages.editparcel.businessrules.CheckParcelExistsBusinessRule(editParcelsRepository)),
                                         new EditParcelMapperImpl()))
                 ).with(

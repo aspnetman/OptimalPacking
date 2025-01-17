@@ -7,7 +7,7 @@ import ru.liga.optimalpacking.packages.shared.exceptions.InvalidOperationExcepti
 import java.util.List;
 
 @RequiredArgsConstructor
-public class BusinessRulesChecker {
+public class ImportPackagesBusinessRulesChecker {
 
     private final CheckFilledTrucksExceededMaxValueBusinessRule checkFilledTrucksExceededMaxValueBusinessRule;
 

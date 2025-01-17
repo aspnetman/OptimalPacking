@@ -3,7 +3,7 @@ package ru.liga.optimalpacking.packages.importpackages;
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.optimalpacking.packages.importpackages.businessrules.BusinessRulesChecker;
+import ru.liga.optimalpacking.packages.importpackages.businessrules.ImportPackagesBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
 
 @Slf4j
@@ -12,7 +12,7 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
 
     private final TrucksRepository trucksRepository;
 
-    private final BusinessRulesChecker businessRulesChecker;
+    private final ImportPackagesBusinessRulesChecker importPackagesBusinessRulesChecker;
 
     private final PackingService packingService;
 
@@ -26,7 +26,7 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
                 command.maxTrucks(),
                 command.packingAlgorithm());
 
-        businessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
+        importPackagesBusinessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
 
         trucksRepository.saveResultsToJson(packingResult.trucks(), "results.json");
 

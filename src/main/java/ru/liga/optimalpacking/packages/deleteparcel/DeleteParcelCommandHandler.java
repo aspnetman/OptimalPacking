@@ -2,7 +2,7 @@ package ru.liga.optimalpacking.packages.deleteparcel;
 
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
-import ru.liga.optimalpacking.packages.deleteparcel.businessrules.BusinessRulesChecker;
+import ru.liga.optimalpacking.packages.deleteparcel.businessrules.DeleteParcelBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.deleteparcel.dto.DeleteParcelResponse;
 
 @RequiredArgsConstructor
@@ -10,12 +10,12 @@ public class DeleteParcelCommandHandler implements Command.Handler<DeleteParcelC
 
     private final DeleteParcelsRepository deleteParcelsRepository;
 
-    private final BusinessRulesChecker businessRulesChecker;
+    private final DeleteParcelBusinessRulesChecker deleteParcelBusinessRulesChecker;
 
     @Override
     public DeleteParcelResponse handle(DeleteParcelCommand deleteParcelCommand) {
 
-        businessRulesChecker.checkParcelExists(deleteParcelCommand.name());
+        deleteParcelBusinessRulesChecker.checkParcelExists(deleteParcelCommand.name());
 
         deleteParcelsRepository.deleteParcel(deleteParcelCommand.name());
 
