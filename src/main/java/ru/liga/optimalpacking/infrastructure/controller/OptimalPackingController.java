@@ -1,8 +1,11 @@
 package ru.liga.optimalpacking.infrastructure.controller;
 
 import an.awesome.pipelinr.Pipeline;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommand;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommand;
 import ru.liga.optimalpacking.packages.getparcel.GetParcelQuery;
@@ -11,16 +14,22 @@ import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
 import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
 
 @Slf4j
-@RequiredArgsConstructor
+@ShellComponent
 public class OptimalPackingController {
     private final Pipeline pipeline;
+
+    @Autowired
+    public OptimalPackingController(Pipeline pipeline) {
+        this.pipeline = pipeline;
+    }
 
     /**
      * Удаление посылки из репозитория
      *
      * @param name Название посылки
      */
-    public void deleteParcel(String name) {
+    @ShellMethod(value = "Удаление посылки из репозитория", key = "delete")
+    public void deleteParcel(@ShellOption({"--name"}) String name) {
         pipeline.send(new DeleteParcelCommand(name));
 
         log.info("Посылка {} удалена", name);
@@ -28,12 +37,19 @@ public class OptimalPackingController {
 
     /**
      * Редактирование посылки
-     *
-     * @param name   Текущее название
-     * @param parcel Данные посылки для редактирования
+     * @param name текущее название
+     * @param width ширина
+     * @param height высота
+     * @param newName новое название
      */
-    public void editParcel(String name, ru.liga.optimalpacking.packages.editparcel.dto.Parcel parcel) {
-        pipeline.send(new EditParcelCommand(name, parcel));
+    @ShellMethod(value = "Редактирование посылки", key = "edit")
+    public void editParcel(@ShellOption({"--name"}) String name,
+                           @ShellOption({"--width"}) int width,
+                           @ShellOption({"--height"}) int height,
+                           @ShellOption({"--newname"}) String newName) {
+        pipeline.send(new EditParcelCommand(
+                name,
+                new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(width, height, newName)));
 
         log.info("Посылка {} отредактирована", name);
     }
@@ -43,7 +59,8 @@ public class OptimalPackingController {
      *
      * @param name Название посылки
      */
-    public void getParcel(String name) {
+    @ShellMethod(value = "Получение посылки по названию", key = "get")
+    public void getParcel(@ShellOption({"--name"}) String name) {
         var parcel = pipeline.send(new GetParcelQuery(name));
 
         log.info("Посылка: {}", parcel.getParcel());
@@ -52,6 +69,7 @@ public class OptimalPackingController {
     /**
      * Получение списка посылок
      */
+    @ShellMethod(value = "Получение списка посылок", key = "list")
     public void getParcels() {
         var parcels = pipeline.send(new GetParcelsQuery());
 
@@ -65,7 +83,11 @@ public class OptimalPackingController {
      * @param maxTrucks        Максимальное число грузовиков
      * @param packingAlgorithm Алгоритм упаковки
      */
-    public void importPackages(String file, int maxTrucks, PackingAlgorithm packingAlgorithm) {
+    @ShellMethod(value = "Погрузка посылок", key = "import")
+    public void importPackages(
+            @ShellOption({"--file"}) String file,
+            @ShellOption({"--maxTrucks"}) int maxTrucks,
+            @ShellOption({"--packingAlgorithm"}) PackingAlgorithm packingAlgorithm) {
         pipeline.send(new ImportPackagesCommand(file, maxTrucks, packingAlgorithm));
     }
 }

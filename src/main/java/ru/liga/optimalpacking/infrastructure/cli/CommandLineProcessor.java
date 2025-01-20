@@ -30,10 +30,9 @@ public class CommandLineProcessor {
 
             consoleController.editParcel(
                     cmd.getOptionValue('e'),
-                    new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(
-                            w,
-                            Integer.parseInt(cmd.getOptionValue('h')),
-                            cmd.getOptionValue('n')));
+                    w,
+                    Integer.parseInt(cmd.getOptionValue('h')),
+                    cmd.getOptionValue('n'));
         } else if (cmd.hasOption('g')) {
             consoleController.getParcel(cmd.getOptionValue('g'));
         } else if (cmd.hasOption('l')) {

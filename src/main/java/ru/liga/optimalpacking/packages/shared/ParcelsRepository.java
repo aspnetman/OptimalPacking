@@ -1,14 +1,29 @@
 package ru.liga.optimalpacking.packages.shared;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import ru.liga.optimalpacking.packages.importpackages.FileParcelsReader;
 import ru.liga.optimalpacking.packages.shared.entities.Parcel;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
 public class ParcelsRepository {
-    private final Map<String, Parcel> parcelsMap;
+
+    private final FileParcelsReader fileParcelsReader;
+
+    private Map<String, Parcel> parcelsMap;
+
+    @PostConstruct
+    public void loadParcels() {
+        parcelsMap = fileParcelsReader.readParcelsFromFile("src/main/resources/packages.txt")
+                .stream()
+                .collect(HashMap::new,
+                        (map, parcel) -> map.put(parcel.name(), parcel),
+                        HashMap::putAll);
+    }
 
     public Parcel getParcel(String name) {
         return parcelsMap.get(name);
