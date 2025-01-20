@@ -44,6 +44,7 @@ dependencies {
     implementation("ch.qos.logback:logback-core:${Versions.logbackCore}")
     implementation("ch.qos.logback:logback-classic:${Versions.logbackClassic}")
     implementation("org.springframework.shell:spring-shell-starter")
+    implementation("org.springframework.boot:spring-boot-starter")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.jUnitJupiterApi}")
     testImplementation("org.assertj:assertj-core:${Versions.assertjCore}")

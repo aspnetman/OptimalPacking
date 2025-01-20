@@ -1,0 +1,8 @@
+﻿spring:
+  shell:
+    interactive:
+      enabled: true
+
+billing:
+  loading-cost-per-segment: 80
+  unloading-cost-per-segment: 50

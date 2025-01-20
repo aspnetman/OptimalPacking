@@ -24,6 +24,8 @@ import ru.liga.optimalpacking.packages.getparcel.GetParcelRepository;
 import ru.liga.optimalpacking.packages.getparcels.GetParcelsQueryHandler;
 import ru.liga.optimalpacking.packages.getparcels.GetParcelsRepository;
 import ru.liga.optimalpacking.packages.importpackages.FileParcelsReader;
+import ru.liga.optimalpacking.packages.importpackages.ImportPackagesBillingRepository;
+import ru.liga.optimalpacking.packages.importpackages.ImportPackagesBillingService;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.PackingService;
 import ru.liga.optimalpacking.packages.importpackages.TrucksRepository;
@@ -31,6 +33,7 @@ import ru.liga.optimalpacking.packages.importpackages.businessrules.CheckFilledT
 import ru.liga.optimalpacking.packages.importpackages.businessrules.ImportPackagesBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.DensePacking;
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.UniformPacking;
+import ru.liga.optimalpacking.packages.shared.BillingRepository;
 import ru.liga.optimalpacking.packages.shared.ParcelsRepository;
 
 @Configuration
@@ -188,15 +191,36 @@ public class AppConfig {
     }
 
     @Bean
+    public BillingRepository billingRepository() {
+        return new BillingRepository();
+    }
+
+    @Bean
+    public ImportPackagesBillingRepository importPackagesBillingRepository(BillingRepository billingRepository) {
+        return new ImportPackagesBillingRepository(billingRepository);
+    }
+
+    @Bean
+    public ImportPackagesBillingService importPackagesBillingService(
+            BillingConfig billingConfig,
+            ImportPackagesBillingRepository importPackagesBillingRepository) {
+        return new ImportPackagesBillingService(
+                billingConfig,
+                importPackagesBillingRepository);
+    }
+
+    @Bean
     public ImportPackagesCommandHandler importPackagesCommandHandler(
             TrucksRepository trucksRepository,
             ImportPackagesBusinessRulesChecker importPackagesBusinessRulesChecker,
             PackingService packingService,
-            FileParcelsReader fileParcelsReader) {
+            FileParcelsReader fileParcelsReader,
+            ImportPackagesBillingService importPackagesBillingService) {
         return new ImportPackagesCommandHandler(
                 trucksRepository,
                 importPackagesBusinessRulesChecker,
                 packingService,
-                fileParcelsReader);
+                fileParcelsReader,
+                importPackagesBillingService);
     }
 }

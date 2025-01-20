@@ -20,6 +20,8 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
 
     private final FileParcelsReader fileParcelsReader;
 
+    private final ImportPackagesBillingService importPackagesBillingService;
+
     @Override
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
 
@@ -29,6 +31,8 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
                 command.packingAlgorithm());
 
         importPackagesBusinessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
+
+        importPackagesBillingService.addBillingForImportedPackages(command.userId(), packingResult.trucks());
 
         trucksRepository.saveResultsToJson(packingResult.trucks(), "results.json");
 

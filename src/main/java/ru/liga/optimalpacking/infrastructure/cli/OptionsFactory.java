@@ -55,6 +55,10 @@ public class OptionsFactory {
         var helpOption = new Option("s", "help", false, "Получение помощи");
         options.addOption(helpOption);
 
+        // Опция для получения идентификатора пользователя
+        var userIdOption = new Option("u", "userId", true, "Указание идентификатора пользователя");
+        options.addOption(userIdOption);
+
         return options;
     }
 }

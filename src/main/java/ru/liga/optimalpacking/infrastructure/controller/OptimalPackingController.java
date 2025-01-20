@@ -1,8 +1,8 @@
 package ru.liga.optimalpacking.infrastructure.controller;
 
 import an.awesome.pipelinr.Pipeline;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -15,13 +15,9 @@ import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
 
 @Slf4j
 @ShellComponent
+@RequiredArgsConstructor
 public class OptimalPackingController {
     private final Pipeline pipeline;
-
-    @Autowired
-    public OptimalPackingController(Pipeline pipeline) {
-        this.pipeline = pipeline;
-    }
 
     /**
      * Удаление посылки из репозитория
@@ -85,10 +81,11 @@ public class OptimalPackingController {
      */
     @ShellMethod(value = "Погрузка посылок", key = "import")
     public void importPackages(
+            @ShellOption({"--userId"}) String userId,
             @ShellOption({"--file"}) String file,
             @ShellOption({"--maxTrucks"}) int maxTrucks,
             @ShellOption({"--packingAlgorithm"}) PackingAlgorithm packingAlgorithm) {
-        pipeline.send(new ImportPackagesCommand(file, maxTrucks, packingAlgorithm));
+        pipeline.send(new ImportPackagesCommand(userId, file, maxTrucks, packingAlgorithm));
     }
 }
 

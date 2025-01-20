@@ -41,6 +41,7 @@ public class CommandLineProcessor {
             printHelp(optionsFactory);
         } else if (cmd.hasOption('i')) {
             consoleController.importPackages(
+                    cmd.getOptionValue('u'),
                     cmd.getOptionValue('f'),
                     Integer.parseInt(cmd.getOptionValue('m')),
                     PackingAlgorithm.valueOf(cmd.getOptionValue('a')));
