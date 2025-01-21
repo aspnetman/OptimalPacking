@@ -6,7 +6,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
-import ru.liga.optimalpacking.infrastructure.controller.OptimalPackingController;
+import ru.liga.optimalpacking.infrastructure.controller.PackagesController;
 import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
 
 @Slf4j
@@ -15,13 +15,13 @@ public class CommandLineProcessor {
 
     private static final String EXIT_COMMAND = "exit";
 
-    private final OptimalPackingController optimalPackingController;
+    private final PackagesController packagesController;
 
     private final OptionsFactory optionsFactory;
 
     private final DefaultParser parser;
 
-    private static void processArguments(CommandLine cmd, OptimalPackingController consoleController, OptionsFactory optionsFactory) {
+    private static void processArguments(CommandLine cmd, PackagesController consoleController, OptionsFactory optionsFactory) {
         if (cmd.hasOption('d')) {
             consoleController.deleteParcel(cmd.getOptionValue('d'));
         } else if (cmd.hasOption('e')) {
@@ -60,7 +60,7 @@ public class CommandLineProcessor {
             }
 
             processArguments(parser.parse(optionsFactory.createOptions(), command.split("\\s+")),
-                    optimalPackingController,
+                    packagesController,
                     optionsFactory);
         } catch (
                 ParseException e) {

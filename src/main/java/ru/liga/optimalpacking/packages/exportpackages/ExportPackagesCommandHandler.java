@@ -19,12 +19,18 @@ public class ExportPackagesCommandHandler implements Command.Handler<ExportPacka
 
     private final ExportPackagesParcelsRepository exportPackagesParcelsRepository;
 
+    private final ExportPackagesBillingService exportPackagesBillingService;
+
     @Override
     public ExportPackagesResponse handle(ExportPackagesCommand exportPackagesCommand) {
 
+        var trucks = trucksProvider.getTrucksFromFile(exportPackagesCommand.trucksFile());
+
         exportPackagesParcelsRepository.writeParcelsFromTrucksToFile(
-                trucksProvider.getTrucksFromJson(exportPackagesCommand.trucksJson()),
+                trucks,
                 fileName);
+
+        exportPackagesBillingService.addBillingForExportedPackages(exportPackagesCommand.userId(), trucks);
 
         return new ExportPackagesResponse(fileName);
     }

@@ -1,8 +1,8 @@
-package ru.liga.optimalpacking.packages.importpackages;
+package ru.liga.optimalpacking.packages.exportpackages;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.config.BillingConfig;
-import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.packages.exportpackages.entities.Truck;
 import ru.liga.optimalpacking.shared.entities.Billing;
 
 import java.math.BigDecimal;
@@ -11,25 +11,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class ImportPackagesBillingService {
+public class ExportPackagesBillingService {
 
     private final BillingConfig billingConfig;
 
-    private final ImportPackagesBillingRepository importPackagesBillingRepository;
+    private final ExportPackagesBillingRepository exportPackagesBillingRepository;
 
-    public void addBillingForImportedPackages(String userId, List<Truck> trucks) {
+    public void addBillingForExportedPackages(String userId, List<Truck> trucks) {
 
         var segments = trucks.stream().mapToInt(Truck::getOccupiedSegmentsCount).sum();
-        var cost = billingConfig.getLoadingCostPerSegment().multiply(BigDecimal.valueOf(segments));
+        var cost = billingConfig.getUnloadingCostPerSegment().multiply(BigDecimal.valueOf(segments));
 
-        importPackagesBillingRepository.addBilling(new Billing(
+        exportPackagesBillingRepository.addBilling(new Billing(
                 userId,
-                "%s;Погрузка;%d машин;%d посылок;%.2f рублей".formatted(
+                "%s;Разгрузка;%d машин;%d посылок;%.2f рублей".formatted(
                         LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                         trucks.size(),
                         trucks.stream().mapToInt(Truck::getParcelsCount).sum(),
                         cost),
-                "погрузка",
+                "разгрузка",
                 LocalDate.now(),
                 segments,
                 cost));

@@ -8,6 +8,8 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.liga.optimalpacking.billings.getbillingdetail.GetBillingDetailQueryHandler;
+import ru.liga.optimalpacking.billings.getbillingdetail.GetBillingDetailRepository;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommandHandler;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelsRepository;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.CheckParcelExistsBusinessRule;
@@ -16,6 +18,8 @@ import ru.liga.optimalpacking.packages.editparcel.EditParcelCommandHandler;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelMapper;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelsRepository;
 import ru.liga.optimalpacking.packages.editparcel.businessrules.EditParcelBusinessRulesChecker;
+import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingRepository;
+import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingService;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesParcelsRepository;
 import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
@@ -33,8 +37,8 @@ import ru.liga.optimalpacking.packages.importpackages.businessrules.CheckFilledT
 import ru.liga.optimalpacking.packages.importpackages.businessrules.ImportPackagesBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.DensePacking;
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.UniformPacking;
-import ru.liga.optimalpacking.packages.shared.BillingRepository;
 import ru.liga.optimalpacking.packages.shared.ParcelsRepository;
+import ru.liga.optimalpacking.shared.BillingRepository;
 
 @Configuration
 public class AppConfig {
@@ -127,10 +131,29 @@ public class AppConfig {
     }
 
     @Bean
+    public ExportPackagesBillingRepository exportPackagesBillingRepository(
+            BillingRepository billingRepository) {
+        return new ExportPackagesBillingRepository(billingRepository);
+    }
+
+    @Bean
+    public ExportPackagesBillingService exportPackagesBillingService(
+            BillingConfig billingConfig,
+            ExportPackagesBillingRepository exportPackagesBillingRepository) {
+        return new ExportPackagesBillingService(
+                billingConfig,
+                exportPackagesBillingRepository);
+    }
+
+    @Bean
     public ExportPackagesCommandHandler exportPackagesCommandHandler(
             TrucksProvider trucksProvider,
-            ExportPackagesParcelsRepository exportPackagesParcelsRepository) {
-        return new ExportPackagesCommandHandler(trucksProvider, exportPackagesParcelsRepository);
+            ExportPackagesParcelsRepository exportPackagesParcelsRepository,
+            ExportPackagesBillingService exportPackagesBillingService) {
+        return new ExportPackagesCommandHandler(
+                trucksProvider,
+                exportPackagesParcelsRepository,
+                exportPackagesBillingService);
     }
 
     @Bean
@@ -222,5 +245,17 @@ public class AppConfig {
                 packingService,
                 fileParcelsReader,
                 importPackagesBillingService);
+    }
+
+    @Bean
+    public GetBillingDetailRepository getBillingDetailRepository(
+            BillingRepository billingRepository) {
+        return new GetBillingDetailRepository(billingRepository);
+    }
+
+    @Bean
+    public GetBillingDetailQueryHandler getBillingDetailQueryHandler(
+            GetBillingDetailRepository getBillingDetailRepository) {
+        return new GetBillingDetailQueryHandler(getBillingDetailRepository);
     }
 }

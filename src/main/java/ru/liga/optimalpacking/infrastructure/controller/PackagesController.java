@@ -2,21 +2,20 @@ package ru.liga.optimalpacking.infrastructure.controller;
 
 import an.awesome.pipelinr.Pipeline;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommand;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommand;
+import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommand;
 import ru.liga.optimalpacking.packages.getparcel.GetParcelQuery;
 import ru.liga.optimalpacking.packages.getparcels.GetParcelsQuery;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
 import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
 
-@Slf4j
 @ShellComponent
 @RequiredArgsConstructor
-public class OptimalPackingController {
+public class PackagesController {
     private final Pipeline pipeline;
 
     /**
@@ -27,8 +26,6 @@ public class OptimalPackingController {
     @ShellMethod(value = "Удаление посылки из репозитория", key = "delete")
     public void deleteParcel(@ShellOption({"--name"}) String name) {
         pipeline.send(new DeleteParcelCommand(name));
-
-        log.info("Посылка {} удалена", name);
     }
 
     /**
@@ -46,8 +43,6 @@ public class OptimalPackingController {
         pipeline.send(new EditParcelCommand(
                 name,
                 new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(width, height, newName)));
-
-        log.info("Посылка {} отредактирована", name);
     }
 
     /**
@@ -57,9 +52,7 @@ public class OptimalPackingController {
      */
     @ShellMethod(value = "Получение посылки по названию", key = "get")
     public void getParcel(@ShellOption({"--name"}) String name) {
-        var parcel = pipeline.send(new GetParcelQuery(name));
-
-        log.info("Посылка: {}", parcel.getParcel());
+        pipeline.send(new GetParcelQuery(name));
     }
 
     /**
@@ -67,9 +60,7 @@ public class OptimalPackingController {
      */
     @ShellMethod(value = "Получение списка посылок", key = "list")
     public void getParcels() {
-        var parcels = pipeline.send(new GetParcelsQuery());
-
-        log.info("Посылки: {}", parcels.parcels());
+        pipeline.send(new GetParcelsQuery());
     }
 
     /**
@@ -87,6 +78,17 @@ public class OptimalPackingController {
             @ShellOption({"--packingAlgorithm"}) PackingAlgorithm packingAlgorithm) {
         pipeline.send(new ImportPackagesCommand(userId, file, maxTrucks, packingAlgorithm));
     }
+
+    /**
+     * Выгрузка посылок
+     *
+     * @param userId     Идентификатор пользователя
+     * @param trucksFile Файл с грузовиками и посылками
+     */
+    @ShellMethod(value = "Выгрузка посылок", key = "export")
+    public void exportPackages(
+            @ShellOption({"--userId"}) String userId,
+            @ShellOption({"--trucksFile"}) String trucksFile) {
+        pipeline.send(new ExportPackagesCommand(userId, trucksFile));
+    }
 }
-
-
