@@ -19,12 +19,13 @@ public class ImportPackagesBillingService {
 
     public void addBillingForImportedPackages(String userId, List<Truck> trucks) {
 
+        String MESSAGE = "Погрузка;Всего машин;%d посылок;%.2f рублей";
         var segments = trucks.stream().mapToInt(Truck::getOccupiedSegmentsCount).sum();
         var cost = billingConfig.getLoadingCostPerSegment().multiply(BigDecimal.valueOf(segments));
 
         importPackagesBillingRepository.addBilling(new Billing(
                 userId,
-                "%s;Погрузка;%d машин;%d посылок;%.2f рублей".formatted(
+                MESSAGE.formatted(
                         LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                         trucks.size(),
                         trucks.stream().mapToInt(Truck::getParcelsCount).sum(),

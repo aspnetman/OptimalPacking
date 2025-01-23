@@ -18,7 +18,9 @@ public class ParcelsRepository {
 
     @PostConstruct
     public void loadParcels() {
-        parcelsMap = fileParcelsReader.readParcelsFromFile("src/main/resources/packages.txt")
+        String FILE = "src/main/resources/packages.txt";
+
+        parcelsMap = fileParcelsReader.readParcelsFromFile(FILE)
                 .stream()
                 .collect(HashMap::new,
                         (map, parcel) -> map.put(parcel.name(), parcel),
