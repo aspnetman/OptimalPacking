@@ -20,7 +20,7 @@ public class ExportPackagesBillingService {
     public void addBillingForExportedPackages(String userId, List<Truck> trucks) {
 
         String MESSAGE = "Разгрузка;Всего машин;%d посылок;%.2f рублей";
-        var segments = trucks.stream().mapToInt(Truck::getOccupiedSegmentsCount).sum();
+        var segments = trucks.stream().mapToInt(Truck::occupiedSegmentsCount).sum();
         var cost = billingConfig.getUnloadingCostPerSegment().multiply(BigDecimal.valueOf(segments));
 
         exportPackagesBillingRepository.addBilling(new Billing(
