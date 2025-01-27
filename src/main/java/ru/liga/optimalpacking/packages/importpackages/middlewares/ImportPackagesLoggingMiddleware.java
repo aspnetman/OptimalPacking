@@ -2,9 +2,13 @@ package ru.liga.optimalpacking.packages.importpackages.middlewares;
 
 import an.awesome.pipelinr.Command;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
 
+@Component
+@Order(2)
 @Slf4j
 public class ImportPackagesLoggingMiddleware implements Command.Middleware {
     @Override

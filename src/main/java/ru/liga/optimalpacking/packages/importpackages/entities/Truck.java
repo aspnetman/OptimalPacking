@@ -70,6 +70,27 @@ public class Truck {
         }
     }
 
+    /**
+     * Метод для получения количества занятых сегментов в грузовике.
+     *
+     * @return Количество занятых сегментов.
+     */
+    public int getOccupiedSegmentsCount() {
+        int count = 0;
+        for (int i = 0; i < TRUCK_WIDTH; i++) {
+            for (int j = 0; j < TRUCK_HEIGHT; j++) {
+                if (grid[i][j] == 'X') {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public int getParcelsCount() {
+        return parcels.size();
+    }
+
     private boolean canPlaceParcelAt(int x, int y, Parcel parcel) {
         for (int i = x; i < x + parcel.width(); i++) {
             for (int j = y; j < y + parcel.height(); j++) {

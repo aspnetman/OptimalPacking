@@ -7,7 +7,7 @@ import ru.liga.optimalpacking.packages.exportpackages.entities.Truck;
 import java.io.FileWriter;
 import java.util.List;
 
-public class ParcelsRepository {
+public class ExportPackagesParcelsRepository {
     @SneakyThrows
     public void writeParcelsFromTrucksToFile(List<Truck> trucks, String fileName) {
         var parcels = trucks

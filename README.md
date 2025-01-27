@@ -1,20 +1,33 @@
 # OptimalPacking
 
 ### Получение списка всех посылок:
--l 
+
+list
 
 ### Получение посылки по имени:
--g Штанга
+
+get --name Штанга
 
 ### Редактирование посылки
--e Штанга -w 5 -h 5 -n Штанга150
+
+edit --name Штанга --width 5 -height 5 -newname Штанга150
 
 ### Удаление посылки по имени
--d Штанга
 
-### Импорт посылок Алгоритм максимальной плотности 
+delete --name Штанга
 
--i -file src/main/resources/packages.txt -maxTrucks 10 -packingAlgorithm DensePacking
+### Импорт посылок Алгоритм максимальной плотности
+
+import --userId 8 --file src/main/resources/packages.txt --maxTrucks 10 --packingAlgorithm DensePacking
 
 ### Импорт посылок Алгоритм равномерной загрузки
--i -file src/main/resources/packages.txt -maxTrucks 10 -packingAlgorithm UniformPacking
+
+import --userId 8 --file src/main/resources/packages.txt --maxTrucks 10 --packingAlgorithm UniformPacking
+
+### Разгрузка грузовиков
+
+export --userId 8 --trucksFile src/main/resources/trucks.txt
+
+### Получить детали по счёту
+
+get-billing-detail -u 8 -f 2024-01-01 -t 2025-02-02

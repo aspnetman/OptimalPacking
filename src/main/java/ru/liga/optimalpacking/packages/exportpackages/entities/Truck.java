@@ -12,4 +12,10 @@ public class Truck {
     private UUID id;
 
     private List<Parcel> parcels;
+
+    private int occupiedSegmentsCount;
+
+    public int getParcelsCount() {
+        return parcels.size();
+    }
 }

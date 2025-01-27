@@ -4,15 +4,24 @@ import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import ru.liga.optimalpacking.packages.exportpackages.entities.Truck;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
 public class TrucksProvider {
-    @SneakyThrows
-    public List<Truck> getTrucksFromJson(String json) {
+    @SneakyThrows(IOException.class)
+    public List<Truck> getTrucksFromFile(String fileName) {
 
-        var trucks = new Gson().fromJson(json, Truck[].class);
+        try (InputStream inputStream = new FileInputStream(fileName)) {
+            var reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 
-        return Arrays.stream(trucks).toList();
+            var trucks = new Gson().fromJson(reader, Truck[].class);
+
+            return Arrays.stream(trucks).toList();
+        }
     }
 }
