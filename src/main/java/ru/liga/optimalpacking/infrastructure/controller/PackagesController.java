@@ -128,9 +128,11 @@ public class PackagesController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Response.class)))
     })
-    public ResponseEntity<Response<GetParcelsResponse>> getParcels() {
+    public ResponseEntity<Response<GetParcelsResponse>> getParcels(
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestParam(defaultValue = "10") int limit) {
         return new ResponseEntity<>(
-                new Response<>(ResponseCode.OK, pipeline.send(new GetParcelsQuery())),
+                new Response<>(ResponseCode.OK, pipeline.send(new GetParcelsQuery(offset, limit))),
                 HttpStatus.OK);
     }
 

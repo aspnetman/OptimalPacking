@@ -36,7 +36,10 @@ public class CommandLineProcessor {
         } else if (cmd.hasOption('g')) {
             consoleController.getParcel(cmd.getOptionValue('g'));
         } else if (cmd.hasOption('l')) {
-            consoleController.getParcels();
+            consoleController.getParcels(
+                    Integer.parseInt(cmd.getOptionValue("offset")),
+                    Integer.parseInt(cmd.getOptionValue("limit"))
+            );
         } else if (cmd.hasOption('h')) {
             printHelp(optionsFactory);
         } else if (cmd.hasOption('i')) {

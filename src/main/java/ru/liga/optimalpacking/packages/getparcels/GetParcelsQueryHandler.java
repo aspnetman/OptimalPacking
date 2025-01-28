@@ -2,6 +2,8 @@ package ru.liga.optimalpacking.packages.getparcels;
 
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ru.liga.optimalpacking.packages.getparcels.dto.GetParcelsResponse;
 import ru.liga.optimalpacking.packages.shared.ParcelsRepository;
@@ -14,6 +16,13 @@ public class GetParcelsQueryHandler implements Command.Handler<GetParcelsQuery, 
 
     @Override
     public GetParcelsResponse handle(GetParcelsQuery getParcelsQuery) {
-        return new GetParcelsResponse(parcelsRepository.findAll());
+
+        var page = parcelsRepository
+                .findAll(
+                        PageRequest.of(getParcelsQuery.offset() / getParcelsQuery.limit(),
+                                getParcelsQuery.limit(),
+                                Sort.by("name").ascending()));
+
+        return new GetParcelsResponse(page.getContent());
     }
 }

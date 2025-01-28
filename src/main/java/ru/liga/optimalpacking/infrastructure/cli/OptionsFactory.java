@@ -59,6 +59,14 @@ public class OptionsFactory {
         var userIdOption = new Option("u", "userId", true, "Указание идентификатора пользователя");
         options.addOption(userIdOption);
 
+        // Опция для получения offset
+        var offsetOption = new Option("o", "offset", true, "Указание offset");
+        options.addOption(offsetOption);
+
+        // Опция для получения limit
+        var limitOption = new Option("limit", "limit", true, "Указание limit");
+        options.addOption(limitOption);
+
         return options;
     }
 }
