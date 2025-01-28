@@ -33,6 +33,8 @@ import ru.liga.optimalpacking.packages.getparcels.dto.GetParcelsResponse;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
 import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
+import ru.liga.optimalpacking.shared.dto.Response;
+import ru.liga.optimalpacking.shared.dto.ResponseCode;
 
 
 @RestController
@@ -52,12 +54,15 @@ public class PackagesController {
             @ApiResponse(responseCode = "200", description = "Посылка успешно удалена",
                     headers = {@Header(name = "X-Operation-ID", description = "ID операции")},
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = DeleteParcelResponse.class))),
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "404", description = "Посылка не найдена",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class)))
     })
-    public ResponseEntity<DeleteParcelResponse> deleteParcel(@Parameter(description = "Название посылки") @PathVariable String name) {
-        return new ResponseEntity<>(pipeline.send(new DeleteParcelCommand(name)), HttpStatus.OK);
+    public ResponseEntity<Response<DeleteParcelResponse>> deleteParcel(@Parameter(description = "Название посылки") @PathVariable String name) {
+        return new ResponseEntity<>(
+                new Response<>(ResponseCode.OK, pipeline.send(new DeleteParcelCommand(name))),
+                HttpStatus.OK);
     }
 
     /**
@@ -73,20 +78,23 @@ public class PackagesController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Посылка успешно отредактирована",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = EditParcelResponse.class))),
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "400", description = "Некорректные данные",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "404", description = "Посылка не найдена",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class)))
     })
-    public ResponseEntity<EditParcelResponse> editParcel(
+    public ResponseEntity<Response<EditParcelResponse>> editParcel(
             @Parameter(description = "Текущее название посылки") @PathVariable String name,
             @Parameter(description = "Ширина посылки") @RequestParam(required = false) Integer width,
             @Parameter(description = "Высота посылки") @RequestParam(required = false) Integer height,
             @Parameter(description = "Новое название посылки") @RequestParam(required = false) String newName) {
-        return new ResponseEntity<>(pipeline.send(new EditParcelCommand(
+        return new ResponseEntity<>(
+                new Response<>(ResponseCode.OK, pipeline.send(new EditParcelCommand(
                 name,
-                new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(width, height, newName))), HttpStatus.OK);
+                        new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(width, height, newName)))), HttpStatus.OK);
     }
 
     /**
@@ -99,12 +107,15 @@ public class PackagesController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Посылка успешно получена",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = GetParcelResponse.class))),
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "404", description = "Посылка не найдена",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class)))
     })
-    public ResponseEntity<GetParcelResponse> getParcel(@Parameter(description = "Название посылки") @PathVariable String name) {
-        return new ResponseEntity<>(pipeline.send(new GetParcelQuery(name)), HttpStatus.OK);
+    public ResponseEntity<Response<GetParcelResponse>> getParcel(@Parameter(description = "Название посылки") @PathVariable String name) {
+        return new ResponseEntity<>(
+                new Response<>(ResponseCode.OK, pipeline.send(new GetParcelQuery(name))),
+                HttpStatus.OK);
     }
 
     /**
@@ -115,10 +126,12 @@ public class PackagesController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Список посылок успешно получен",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = GetParcelsResponse.class)))
+                            schema = @Schema(implementation = Response.class)))
     })
-    public ResponseEntity<GetParcelsResponse> getParcels() {
-        return new ResponseEntity<>(pipeline.send(new GetParcelsQuery()), HttpStatus.OK);
+    public ResponseEntity<Response<GetParcelsResponse>> getParcels() {
+        return new ResponseEntity<>(
+                new Response<>(ResponseCode.OK, pipeline.send(new GetParcelsQuery())),
+                HttpStatus.OK);
     }
 
     /**
@@ -134,18 +147,22 @@ public class PackagesController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Посылки успешно загружены",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ImportPackagesResponse.class))),
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "400", description = "Некорректные данные",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "500", description = "Ошибка загрузки файла",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class)))
     })
-    public ResponseEntity<ImportPackagesResponse> importPackages(
+    public ResponseEntity<Response<ImportPackagesResponse>> importPackages(
             @Parameter(description = "Идентификатор пользователя") @RequestParam String userId,
             @Parameter(description = "Файл с данными по посылкам для погрузки") @RequestParam String file,
             @Parameter(description = "Максимальное число грузовиков") @RequestParam(defaultValue = "10") int maxTrucks,
             @Parameter(description = "Алгоритм упаковки") @RequestParam(required = false) PackingAlgorithm packingAlgorithm) {
-        return new ResponseEntity<>(pipeline.send(new ImportPackagesCommand(userId, file, maxTrucks, packingAlgorithm)), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new Response<>(ResponseCode.OK, pipeline.send(new ImportPackagesCommand(userId, file, maxTrucks, packingAlgorithm))),
+                HttpStatus.OK);
     }
 
     /**
@@ -159,15 +176,19 @@ public class PackagesController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Посылки успешно выгружены",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ExportPackagesResponse.class))),
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "400", description = "Некорректные данные",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class))),
             @ApiResponse(responseCode = "500", description = "Ошибка записи в файл",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Response.class)))
     })
-    public ResponseEntity<ExportPackagesResponse> exportPackages(
+    public ResponseEntity<Response<ExportPackagesResponse>> exportPackages(
             @Parameter(description = "Идентификатор пользователя") @RequestParam String userId,
             @Parameter(description = "Файл с грузовиками и посылками") @RequestParam String trucksFile) {
-        return new ResponseEntity<>(pipeline.send(new ExportPackagesCommand(userId, trucksFile)), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new Response<>(ResponseCode.OK, pipeline.send(new ExportPackagesCommand(userId, trucksFile))),
+                HttpStatus.OK);
     }
 }

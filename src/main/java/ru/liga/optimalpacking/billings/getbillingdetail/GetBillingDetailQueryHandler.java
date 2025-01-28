@@ -4,6 +4,7 @@ import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.liga.optimalpacking.billings.getbillingdetail.dto.GetBillingDetailResponse;
+import ru.liga.optimalpacking.shared.BillingRepository;
 import ru.liga.optimalpacking.shared.entities.Billing;
 
 import java.util.stream.Collectors;
@@ -12,12 +13,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetBillingDetailQueryHandler implements Command.Handler<GetBillingDetailQuery, GetBillingDetailResponse> {
 
-    private final GetBillingDetailRepository getBillingDetailRepository;
+    private final BillingRepository billingRepository;
 
     @Override
     public GetBillingDetailResponse handle(GetBillingDetailQuery getBillingDetailQuery) {
 
-        var billings = getBillingDetailRepository.GetBillings(
+        var billings = billingRepository.findByUserIdAndDateBetweenOrderByDateDesc(
                 getBillingDetailQuery.userId(),
                 getBillingDetailQuery.from(),
                 getBillingDetailQuery.to());
@@ -28,7 +29,7 @@ public class GetBillingDetailQueryHandler implements Command.Handler<GetBillingD
 
         return new GetBillingDetailResponse(billings
                 .stream()
-                .map(Billing::description)
+                .map(Billing::getDescription)
                 .collect(Collectors.joining("\n")));
     }
 }

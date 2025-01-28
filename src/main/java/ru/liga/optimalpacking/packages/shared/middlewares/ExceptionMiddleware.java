@@ -12,12 +12,13 @@ public class ExceptionMiddleware implements Command.Middleware {
     @Override
     public <R, C extends Command<R>> R invoke(C c, Next<R> next) {
 
-        R result = null;
+        R result;
 
         try {
             result = next.invoke();
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
+            throw exception;
         }
 
         return result;

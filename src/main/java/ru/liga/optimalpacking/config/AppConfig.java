@@ -9,14 +9,12 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.liga.optimalpacking.billings.getbillingdetail.GetBillingDetailQueryHandler;
-import ru.liga.optimalpacking.billings.getbillingdetail.GetBillingDetailRepository;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommandHandler;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.CheckParcelExistsBusinessRule;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.DeleteParcelBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommandHandler;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelMapper;
 import ru.liga.optimalpacking.packages.editparcel.businessrules.EditParcelBusinessRulesChecker;
-import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingRepository;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingService;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesParcelsRepository;
@@ -24,7 +22,6 @@ import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
 import ru.liga.optimalpacking.packages.getparcel.GetParcelQueryHandler;
 import ru.liga.optimalpacking.packages.getparcels.GetParcelsQueryHandler;
 import ru.liga.optimalpacking.packages.importpackages.FileParcelsReader;
-import ru.liga.optimalpacking.packages.importpackages.ImportPackagesBillingRepository;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesBillingService;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.PackingService;
@@ -109,18 +106,12 @@ public class AppConfig {
     }
 
     @Bean
-    public ExportPackagesBillingRepository exportPackagesBillingRepository(
-            BillingRepository billingRepository) {
-        return new ExportPackagesBillingRepository(billingRepository);
-    }
-
-    @Bean
     public ExportPackagesBillingService exportPackagesBillingService(
             BillingConfig billingConfig,
-            ExportPackagesBillingRepository exportPackagesBillingRepository) {
+            BillingRepository billingRepository) {
         return new ExportPackagesBillingService(
                 billingConfig,
-                exportPackagesBillingRepository);
+                billingRepository);
     }
 
     @Bean
@@ -180,22 +171,12 @@ public class AppConfig {
     }
 
     @Bean
-    public BillingRepository billingRepository() {
-        return new BillingRepository();
-    }
-
-    @Bean
-    public ImportPackagesBillingRepository importPackagesBillingRepository(BillingRepository billingRepository) {
-        return new ImportPackagesBillingRepository(billingRepository);
-    }
-
-    @Bean
     public ImportPackagesBillingService importPackagesBillingService(
             BillingConfig billingConfig,
-            ImportPackagesBillingRepository importPackagesBillingRepository) {
+            BillingRepository billingRepository) {
         return new ImportPackagesBillingService(
                 billingConfig,
-                importPackagesBillingRepository);
+                billingRepository);
     }
 
     @Bean
@@ -214,14 +195,8 @@ public class AppConfig {
     }
 
     @Bean
-    public GetBillingDetailRepository getBillingDetailRepository(
-            BillingRepository billingRepository) {
-        return new GetBillingDetailRepository(billingRepository);
-    }
-
-    @Bean
     public GetBillingDetailQueryHandler getBillingDetailQueryHandler(
-            GetBillingDetailRepository getBillingDetailRepository) {
-        return new GetBillingDetailQueryHandler(getBillingDetailRepository);
+            BillingRepository billingRepository) {
+        return new GetBillingDetailQueryHandler(billingRepository);
     }
 }

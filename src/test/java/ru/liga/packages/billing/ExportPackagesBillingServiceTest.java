@@ -8,10 +8,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.liga.optimalpacking.config.BillingConfig;
-import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingRepository;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingService;
 import ru.liga.optimalpacking.packages.exportpackages.entities.Truck;
 import ru.liga.optimalpacking.packages.shared.entities.Parcel;
+import ru.liga.optimalpacking.shared.BillingRepository;
 import ru.liga.optimalpacking.shared.entities.Billing;
 
 import java.math.BigDecimal;
@@ -31,7 +31,7 @@ public class ExportPackagesBillingServiceTest {
     private BillingConfig billingConfig;
 
     @Mock
-    private ExportPackagesBillingRepository exportPackagesBillingRepository;
+    private BillingRepository exportPackagesBillingRepository;
 
     @InjectMocks
     private ExportPackagesBillingService serviceUnderTest;
@@ -53,20 +53,20 @@ public class ExportPackagesBillingServiceTest {
     void testAddBillingForExportedPackages() {
         serviceUnderTest.addBillingForExportedPackages("user1", trucks);
 
-        Mockito.verify(exportPackagesBillingRepository).addBilling(Mockito.any(Billing.class));
+        Mockito.verify(exportPackagesBillingRepository).save(Mockito.any(Billing.class));
     }
 
     @Test
     void testCalculateTotalSegments() {
         serviceUnderTest.addBillingForExportedPackages("user1", trucks);
 
-        Mockito.verify(exportPackagesBillingRepository).addBilling(Mockito.argThat(billing -> billing.getSegments() == 5));
+        Mockito.verify(exportPackagesBillingRepository).save(Mockito.argThat(billing -> billing.getSegments() == 5));
     }
 
     @Test
     void testCalculateTotalCost() {
         serviceUnderTest.addBillingForExportedPackages("user1", trucks);
 
-        Mockito.verify(exportPackagesBillingRepository).addBilling(Mockito.argThat(billing -> billing.cost().compareTo(BigDecimal.valueOf(5000)) == 0));
+        Mockito.verify(exportPackagesBillingRepository).save(Mockito.argThat(billing -> billing.getCost().compareTo(BigDecimal.valueOf(5000)) == 0));
     }
 }
