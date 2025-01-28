@@ -30,6 +30,8 @@ public class CommandLineProcessor {
 
             consoleController.editParcel(
                     cmd.getOptionValue('e'),
+                    cmd.getOptionValue("form"),
+                    cmd.getOptionValue("symbol").charAt(0),
                     w,
                     Integer.parseInt(cmd.getOptionValue('h')),
                     cmd.getOptionValue('n'));

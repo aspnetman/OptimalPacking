@@ -27,7 +27,7 @@ public class Response<DataType> {
     private @Valid ResponseMetaData result;
 
     @Nullable
-    @Schema(description = "Полезная нагрузка ответа", example = "Посылка отправлена")
+    @Schema(description = "Полезная нагрузка ответа")
     private DataType data;
 
     public Response(@NotNull ResponseMetaData result) {

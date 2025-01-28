@@ -88,13 +88,15 @@ public class PackagesController {
     })
     public ResponseEntity<Response<EditParcelResponse>> editParcel(
             @Parameter(description = "Текущее название посылки") @PathVariable String name,
+            @Parameter(description = "Форма посылки") @RequestParam String form,
+            @Parameter(description = "Символ посылки") @RequestParam char symbol,
             @Parameter(description = "Ширина посылки") @RequestParam(required = false) Integer width,
             @Parameter(description = "Высота посылки") @RequestParam(required = false) Integer height,
             @Parameter(description = "Новое название посылки") @RequestParam(required = false) String newName) {
         return new ResponseEntity<>(
                 new Response<>(ResponseCode.OK, pipeline.send(new EditParcelCommand(
                 name,
-                        new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(width, height, newName)))), HttpStatus.OK);
+                        new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(newName, form, symbol, width, height)))), HttpStatus.OK);
     }
 
     /**
