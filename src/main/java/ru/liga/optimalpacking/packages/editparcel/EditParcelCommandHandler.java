@@ -20,7 +20,7 @@ public class EditParcelCommandHandler implements Command.Handler<EditParcelComma
 
         editParcelBusinessRulesChecker.checkParcelExists(editParcelCommand.name());
 
-        parcelsRepository.save(mapper.toEntity(editParcelCommand.parcel()));
+        parcelsRepository.save(mapper.toEntity(editParcelCommand.parcelDto()));
 
         return new EditParcelResponse();
     }

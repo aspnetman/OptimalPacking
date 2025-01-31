@@ -24,6 +24,7 @@ import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommand;
 import ru.liga.optimalpacking.packages.deleteparcel.dto.DeleteParcelResponse;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommand;
 import ru.liga.optimalpacking.packages.editparcel.dto.EditParcelResponse;
+import ru.liga.optimalpacking.packages.editparcel.dto.ParcelDto;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommand;
 import ru.liga.optimalpacking.packages.exportpackages.dto.ExportPackagesResponse;
 import ru.liga.optimalpacking.packages.getparcel.GetParcelQuery;
@@ -96,7 +97,7 @@ public class PackagesController {
         return new ResponseEntity<>(
                 new Response<>(ResponseCode.OK, pipeline.send(new EditParcelCommand(
                 name,
-                        new ru.liga.optimalpacking.packages.editparcel.dto.Parcel(newName, form, symbol, width, height)))), HttpStatus.OK);
+                        new ParcelDto(newName, form, symbol, width, height)))), HttpStatus.OK);
     }
 
     /**

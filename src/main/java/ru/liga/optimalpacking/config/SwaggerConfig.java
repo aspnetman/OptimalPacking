@@ -15,7 +15,6 @@ import java.util.List;
 @Configuration
 public class SwaggerConfig {
 
-    // Перемещение @Value на уровень поля
     @Value("${TAG:undefined}")
     private String appVersion;
 

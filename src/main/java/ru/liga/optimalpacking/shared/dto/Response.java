@@ -1,6 +1,5 @@
 package ru.liga.optimalpacking.shared.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Общая часть ответа
@@ -30,10 +28,6 @@ public class Response<DataType> {
     @Schema(description = "Полезная нагрузка ответа")
     private DataType data;
 
-    public Response(@NotNull ResponseMetaData result) {
-        this.result = result;
-    }
-
     public Response(@NotNull ResponseCode responseCode) {
         this.result = new ResponseMetaData(responseCode);
     }
@@ -43,31 +37,7 @@ public class Response<DataType> {
         this.data = data;
     }
 
-    public static <T> ResponseEntity<Response<T>> buildBadRequest() {
-        return new Response<T>(ResponseCode.BAD_REQUEST).asResponseEntity();
-    }
-
-    public static <T> ResponseEntity<Response<T>> buildInternalServerError() {
-        return new Response<T>(ResponseCode.INTERNAL_SERVER_ERROR).asResponseEntity();
-    }
-
-    public static <T> ResponseEntity<Response<T>> buildOk() {
-        return new Response<T>(ResponseCode.OK).asResponseEntity();
-    }
-
     public ResponseEntity<Response<DataType>> asResponseEntity() {
         return ResponseEntity.status(result.getStatus()).body(this);
-    }
-
-    @JsonIgnore
-    public boolean isError() {
-        return !isSuccess();
-    }
-
-    @JsonIgnore
-    public boolean isSuccess() {
-        return result != null
-                && isNotBlank(result.getCode())
-                && SUCCESS == result.getCode().charAt(RESULT_TYPE_POSITION);
     }
 }

@@ -41,7 +41,11 @@ public class Billing {
     @Column(name = "cost")
     private BigDecimal cost;
 
-    // Метод для получения количества сегментов
+    /**
+     * Метод для получения количества сегментов
+     *
+     * @return количество сегментов
+     */
     public int getSegments() {
         return quantity;
     }

@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -21,7 +20,6 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 /**
  * Результат обработки запроса
  */
-@Data
 @Valid
 @Builder
 @NoArgsConstructor
@@ -50,12 +48,5 @@ public class ResponseMetaData {
         this.status = responseCode.getStatus();
         this.code = responseCode.getCode();
         this.message = responseCode.getMessage();
-    }
-
-    public ResponseMetaData(int status, String code, String message) {
-        this.timestamp = LocalDateTime.now();
-        this.status = status;
-        this.code = code;
-        this.message = message;
     }
 }

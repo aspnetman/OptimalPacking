@@ -11,7 +11,7 @@ public record GetBillingDetailQuery(String userId, LocalDate from, LocalDate to)
         implements Command<GetBillingDetailResponse>, IRequestNotFound {
 
     @Override
-    public String GetNotFoundErrorMessage() {
+    public String getNotFoundErrorMessage() {
         return String.format("Детали счёта для пользователя %s с даты %s по дату %s не найдены.",
                 userId,
                 from.format(DateTimeFormatter.ISO_LOCAL_DATE),
