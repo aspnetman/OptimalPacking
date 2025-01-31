@@ -7,7 +7,7 @@ import ru.liga.optimalpacking.packages.shared.middlewares.IRequestNotFound;
 public record GetParcelQuery(String packageName) implements Command<GetParcelResponse>, IRequestNotFound {
 
     @Override
-    public String GetNotFoundErrorMessage() {
+    public String getNotFoundErrorMessage() {
         return String.format("Посылка с именем %s не найдена.", packageName);
     }
 }

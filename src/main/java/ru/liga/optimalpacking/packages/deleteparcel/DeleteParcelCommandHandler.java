@@ -5,12 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.DeleteParcelBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.deleteparcel.dto.DeleteParcelResponse;
+import ru.liga.optimalpacking.packages.shared.ParcelsRepository;
 
 @Component
 @RequiredArgsConstructor
 public class DeleteParcelCommandHandler implements Command.Handler<DeleteParcelCommand, DeleteParcelResponse> {
 
-    private final DeleteParcelsRepository deleteParcelsRepository;
+    private final ParcelsRepository parcelsRepository;
 
     private final DeleteParcelBusinessRulesChecker deleteParcelBusinessRulesChecker;
 
@@ -19,7 +20,7 @@ public class DeleteParcelCommandHandler implements Command.Handler<DeleteParcelC
 
         deleteParcelBusinessRulesChecker.checkParcelExists(deleteParcelCommand.name());
 
-        deleteParcelsRepository.deleteParcel(deleteParcelCommand.name());
+        parcelsRepository.deleteById(deleteParcelCommand.name());
 
         return new DeleteParcelResponse();
     }

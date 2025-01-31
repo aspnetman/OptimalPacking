@@ -18,7 +18,7 @@ public class GetParcelLoggingMiddleware implements Command.Middleware {
 
             var result = next.invoke();
 
-            log.info("Посылка: {}", ((GetParcelResponse) result).getParcel());
+            log.info("Посылка: {}", ((GetParcelResponse) result).parcel());
 
             return result;
         } else {

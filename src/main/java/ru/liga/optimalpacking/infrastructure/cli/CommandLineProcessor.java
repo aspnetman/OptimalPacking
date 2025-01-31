@@ -22,29 +22,34 @@ public class CommandLineProcessor {
     private final DefaultParser parser;
 
     private static void processArguments(CommandLine cmd, PackagesController consoleController, OptionsFactory optionsFactory) {
-        if (cmd.hasOption('d')) {
-            consoleController.deleteParcel(cmd.getOptionValue('d'));
-        } else if (cmd.hasOption('e')) {
+        if (cmd.hasOption("delete")) {
+            consoleController.deleteParcel(cmd.getOptionValue("delete"));
+        } else if (cmd.hasOption("edit")) {
 
-            var w = Integer.parseInt(cmd.getOptionValue('w'));
+            var width = Integer.parseInt(cmd.getOptionValue("width"));
 
             consoleController.editParcel(
-                    cmd.getOptionValue('e'),
-                    w,
-                    Integer.parseInt(cmd.getOptionValue('h')),
-                    cmd.getOptionValue('n'));
-        } else if (cmd.hasOption('g')) {
-            consoleController.getParcel(cmd.getOptionValue('g'));
-        } else if (cmd.hasOption('l')) {
-            consoleController.getParcels();
-        } else if (cmd.hasOption('h')) {
+                    cmd.getOptionValue("edit"),
+                    cmd.getOptionValue("form"),
+                    cmd.getOptionValue("symbol").charAt(0),
+                    width,
+                    Integer.parseInt(cmd.getOptionValue("height")),
+                    cmd.getOptionValue("name"));
+        } else if (cmd.hasOption("get")) {
+            consoleController.getParcel(cmd.getOptionValue("get"));
+        } else if (cmd.hasOption("list")) {
+            consoleController.getParcels(
+                    Integer.parseInt(cmd.getOptionValue("offset")),
+                    Integer.parseInt(cmd.getOptionValue("limit"))
+            );
+        } else if (cmd.hasOption("height")) {
             printHelp(optionsFactory);
-        } else if (cmd.hasOption('i')) {
+        } else if (cmd.hasOption("import")) {
             consoleController.importPackages(
-                    cmd.getOptionValue('u'),
-                    cmd.getOptionValue('f'),
-                    Integer.parseInt(cmd.getOptionValue('m')),
-                    PackingAlgorithm.valueOf(cmd.getOptionValue('a')));
+                    cmd.getOptionValue("userId"),
+                    cmd.getOptionValue("file"),
+                    Integer.parseInt(cmd.getOptionValue("maxTrucks")),
+                    PackingAlgorithm.valueOf(cmd.getOptionValue("packingAlgorithm")));
         }
     }
 

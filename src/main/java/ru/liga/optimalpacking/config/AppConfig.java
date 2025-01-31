@@ -9,26 +9,19 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.liga.optimalpacking.billings.getbillingdetail.GetBillingDetailQueryHandler;
-import ru.liga.optimalpacking.billings.getbillingdetail.GetBillingDetailRepository;
 import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelCommandHandler;
-import ru.liga.optimalpacking.packages.deleteparcel.DeleteParcelsRepository;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.CheckParcelExistsBusinessRule;
 import ru.liga.optimalpacking.packages.deleteparcel.businessrules.DeleteParcelBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommandHandler;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelMapper;
-import ru.liga.optimalpacking.packages.editparcel.EditParcelsRepository;
 import ru.liga.optimalpacking.packages.editparcel.businessrules.EditParcelBusinessRulesChecker;
-import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingRepository;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingService;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesParcelsRepository;
 import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
 import ru.liga.optimalpacking.packages.getparcel.GetParcelQueryHandler;
-import ru.liga.optimalpacking.packages.getparcel.GetParcelRepository;
 import ru.liga.optimalpacking.packages.getparcels.GetParcelsQueryHandler;
-import ru.liga.optimalpacking.packages.getparcels.GetParcelsRepository;
 import ru.liga.optimalpacking.packages.importpackages.FileParcelsReader;
-import ru.liga.optimalpacking.packages.importpackages.ImportPackagesBillingRepository;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesBillingService;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.PackingService;
@@ -59,21 +52,9 @@ public class AppConfig {
     }
 
     @Bean
-    public ParcelsRepository parcelsRepository(
-            FileParcelsReader fileParcelsReader) {
-        return new ParcelsRepository(fileParcelsReader);
-    }
-
-    @Bean
-    public DeleteParcelsRepository deleteParcelsRepository(
-            ParcelsRepository parcelsRepository) {
-        return new DeleteParcelsRepository(parcelsRepository);
-    }
-
-    @Bean
     public CheckParcelExistsBusinessRule checkParcelExistsBusinessRule(
-            DeleteParcelsRepository deleteParcelsRepository) {
-        return new CheckParcelExistsBusinessRule(deleteParcelsRepository);
+            ParcelsRepository parcelsRepository) {
+        return new CheckParcelExistsBusinessRule(parcelsRepository);
     }
 
     @Bean
@@ -84,21 +65,15 @@ public class AppConfig {
 
     @Bean
     public DeleteParcelCommandHandler deleteParcelCommandHandler(
-            DeleteParcelsRepository deleteParcelsRepository,
+            ParcelsRepository parcelsRepository,
             DeleteParcelBusinessRulesChecker deleteParcelBusinessRulesChecker) {
-        return new DeleteParcelCommandHandler(deleteParcelsRepository, deleteParcelBusinessRulesChecker);
-    }
-
-    @Bean
-    public EditParcelsRepository editParcelsRepository(
-            ParcelsRepository parcelsRepository) {
-        return new EditParcelsRepository(parcelsRepository);
+        return new DeleteParcelCommandHandler(parcelsRepository, deleteParcelBusinessRulesChecker);
     }
 
     @Bean
     public ru.liga.optimalpacking.packages.editparcel.businessrules.CheckParcelExistsBusinessRule checkParcelExistsForEditBusinessRule(
-            EditParcelsRepository editParcelsRepository) {
-        return new ru.liga.optimalpacking.packages.editparcel.businessrules.CheckParcelExistsBusinessRule(editParcelsRepository);
+            ParcelsRepository parcelsRepository) {
+        return new ru.liga.optimalpacking.packages.editparcel.businessrules.CheckParcelExistsBusinessRule(parcelsRepository);
     }
 
     @Bean
@@ -114,10 +89,10 @@ public class AppConfig {
 
     @Bean
     public EditParcelCommandHandler editParcelCommandHandler(
-            EditParcelsRepository editParcelsRepository,
+            ParcelsRepository parcelsRepository,
             EditParcelBusinessRulesChecker editParcelBusinessRulesChecker,
             EditParcelMapper mapper) {
-        return new EditParcelCommandHandler(editParcelsRepository, editParcelBusinessRulesChecker, mapper);
+        return new EditParcelCommandHandler(parcelsRepository, editParcelBusinessRulesChecker, mapper);
     }
 
     @Bean
@@ -131,18 +106,12 @@ public class AppConfig {
     }
 
     @Bean
-    public ExportPackagesBillingRepository exportPackagesBillingRepository(
-            BillingRepository billingRepository) {
-        return new ExportPackagesBillingRepository(billingRepository);
-    }
-
-    @Bean
     public ExportPackagesBillingService exportPackagesBillingService(
             BillingConfig billingConfig,
-            ExportPackagesBillingRepository exportPackagesBillingRepository) {
+            BillingRepository billingRepository) {
         return new ExportPackagesBillingService(
                 billingConfig,
-                exportPackagesBillingRepository);
+                billingRepository);
     }
 
     @Bean
@@ -157,27 +126,15 @@ public class AppConfig {
     }
 
     @Bean
-    public GetParcelRepository getParcelRepository(
-            ParcelsRepository parcelsRepository) {
-        return new GetParcelRepository(parcelsRepository);
-    }
-
-    @Bean
     public GetParcelQueryHandler getParcelQueryHandler(
-            GetParcelRepository getParcelRepository) {
-        return new GetParcelQueryHandler(getParcelRepository);
-    }
-
-    @Bean
-    public GetParcelsRepository getParcelsRepository(
             ParcelsRepository parcelsRepository) {
-        return new GetParcelsRepository(parcelsRepository);
+        return new GetParcelQueryHandler(parcelsRepository);
     }
 
     @Bean
     public GetParcelsQueryHandler getParcelsQueryHandler(
-            GetParcelsRepository getParcelsRepository) {
-        return new GetParcelsQueryHandler(getParcelsRepository);
+            ParcelsRepository parcelsRepository) {
+        return new GetParcelsQueryHandler(parcelsRepository);
     }
 
     @Bean
@@ -214,22 +171,12 @@ public class AppConfig {
     }
 
     @Bean
-    public BillingRepository billingRepository() {
-        return new BillingRepository();
-    }
-
-    @Bean
-    public ImportPackagesBillingRepository importPackagesBillingRepository(BillingRepository billingRepository) {
-        return new ImportPackagesBillingRepository(billingRepository);
-    }
-
-    @Bean
     public ImportPackagesBillingService importPackagesBillingService(
             BillingConfig billingConfig,
-            ImportPackagesBillingRepository importPackagesBillingRepository) {
+            BillingRepository billingRepository) {
         return new ImportPackagesBillingService(
                 billingConfig,
-                importPackagesBillingRepository);
+                billingRepository);
     }
 
     @Bean
@@ -248,14 +195,8 @@ public class AppConfig {
     }
 
     @Bean
-    public GetBillingDetailRepository getBillingDetailRepository(
-            BillingRepository billingRepository) {
-        return new GetBillingDetailRepository(billingRepository);
-    }
-
-    @Bean
     public GetBillingDetailQueryHandler getBillingDetailQueryHandler(
-            GetBillingDetailRepository getBillingDetailRepository) {
-        return new GetBillingDetailQueryHandler(getBillingDetailRepository);
+            BillingRepository billingRepository) {
+        return new GetBillingDetailQueryHandler(billingRepository);
     }
 }

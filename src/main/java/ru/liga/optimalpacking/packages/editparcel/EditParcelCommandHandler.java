@@ -4,11 +4,12 @@ import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.editparcel.businessrules.EditParcelBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.editparcel.dto.EditParcelResponse;
+import ru.liga.optimalpacking.packages.shared.ParcelsRepository;
 
 @RequiredArgsConstructor
 public class EditParcelCommandHandler implements Command.Handler<EditParcelCommand, EditParcelResponse> {
 
-    private final EditParcelsRepository editParcelsRepository;
+    private final ParcelsRepository parcelsRepository;
 
     private final EditParcelBusinessRulesChecker editParcelBusinessRulesChecker;
 
@@ -19,10 +20,8 @@ public class EditParcelCommandHandler implements Command.Handler<EditParcelComma
 
         editParcelBusinessRulesChecker.checkParcelExists(editParcelCommand.name());
 
-        editParcelsRepository.editParcel(
-                editParcelCommand.name(),
-                mapper.toEntity(editParcelCommand.parcel()));
+        parcelsRepository.save(mapper.toEntity(editParcelCommand.parcelDto()));
 
-        return null;
+        return new EditParcelResponse();
     }
 }

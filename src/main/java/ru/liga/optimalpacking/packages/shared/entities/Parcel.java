@@ -1,17 +1,34 @@
 package ru.liga.optimalpacking.packages.shared.entities;
 
-public record Parcel(String name, char[][] form, char symbol, int width, int height) {
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('\n');
-        sb.append("Название: ").append(name).append('\n');
-        sb.append("Форма:\n");
-        for (char[] row : form) {
-            sb.append(row).append('\n');
-        }
-        sb.append("Ширина: ").append(width).append('\n');
-        sb.append("Высота: ").append(height);
-        return sb.toString();
-    }
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "parcels", schema = "public")
+public class Parcel {
+
+    @Id
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "form")
+    private String form;
+
+    @Column(name = "symbol")
+    private char symbol;
+
+    @Column(name = "width")
+    private int width;
+
+    @Column(name = "height")
+    private int height;
 }

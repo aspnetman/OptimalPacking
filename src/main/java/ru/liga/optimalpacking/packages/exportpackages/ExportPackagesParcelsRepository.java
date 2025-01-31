@@ -12,7 +12,7 @@ public class ExportPackagesParcelsRepository {
     public void writeParcelsFromTrucksToFile(List<Truck> trucks, String fileName) {
         var parcels = trucks
                 .stream()
-                .flatMap(truck -> truck.getParcels().stream())
+                .flatMap(truck -> truck.parcels().stream())
                 .toList();
 
         try(FileWriter writer = new FileWriter(fileName)) {

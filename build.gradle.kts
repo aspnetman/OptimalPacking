@@ -12,7 +12,7 @@ object Versions {
     const val assertjCore = "3.27.2"
     const val junitBom = "5.10.0"
     const val junitJupiter = "5.10.0"
-    const val springShellVersion = "3.4.0"
+    const val springdocOpenApiVersion = "2.8.3"
 }
 
 plugins {
@@ -27,6 +27,8 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+
+val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {
     compileOnly("org.projectlombok:lombok:${Versions.lombok}")
@@ -43,25 +45,26 @@ dependencies {
     implementation("org.slf4j:slf4j-api:${Versions.slf4jApi}")
     implementation("ch.qos.logback:logback-core:${Versions.logbackCore}")
     implementation("ch.qos.logback:logback-classic:${Versions.logbackClassic}")
-    implementation("org.springframework.shell:spring-shell-starter")
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${Versions.springdocOpenApiVersion}")
+
+    runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.jUnitJupiterApi}")
     testImplementation("org.assertj:assertj-core:${Versions.assertjCore}")
     testImplementation(platform("org.junit:junit-bom:${Versions.junitBom}"))
     testImplementation("org.junit.jupiter:junit-jupiter:${Versions.junitJupiter}")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.shell:spring-shell-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.mockito:mockito-junit-jupiter")
 
     testAnnotationProcessor("org.projectlombok:lombok:${Versions.lombok}")
     testAnnotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.shell:spring-shell-dependencies:${Versions.springShellVersion}")
-    }
 }
 
 tasks {

@@ -18,7 +18,7 @@ public class NotFoundMiddleware implements Command.Middleware {
         }
 
         if (result == null) {
-            throw new NotFoundException(((IRequestNotFound) c).GetNotFoundErrorMessage());
+            throw new NotFoundException(((IRequestNotFound) c).getNotFoundErrorMessage());
         }
 
         return result;
