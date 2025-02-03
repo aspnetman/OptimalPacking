@@ -1,4 +1,8 @@
 package ru.liga.optimalpacking.billings.addbilling;
 
-public class AddBillingCommand {
+import an.awesome.pipelinr.Command;
+import ru.liga.optimalpacking.billings.addbilling.dto.AddBillingResponse;
+import ru.liga.optimalpacking.billings.addbilling.dto.BillingDto;
+
+public record AddBillingCommand(BillingDto billingDto) implements Command<AddBillingResponse> {
 }
