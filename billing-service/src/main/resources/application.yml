@@ -1,0 +1,17 @@
+﻿spring:
+  datasource:
+    url: jdbc:postgresql://localhost:8889/optimalpacking-billing
+    username: optimalpacking-billing-user
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  shell:
+    interactive:
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+billing:
+  loading-cost-per-segment: 80
+  unloading-cost-per-segment: 50
