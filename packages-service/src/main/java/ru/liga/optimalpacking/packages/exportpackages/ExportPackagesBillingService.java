@@ -1,39 +1,37 @@
 package ru.liga.optimalpacking.packages.exportpackages;
 
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-import ru.liga.optimalpacking.config.BillingConfig;
 import ru.liga.optimalpacking.packages.exportpackages.entities.Truck;
-import ru.liga.optimalpacking.packages.shared.BillingRepository;
 import ru.liga.optimalpacking.packages.shared.entities.Billing;
+import ru.liga.optimalpacking.shared.OutboxMessageRepository;
+import ru.liga.optimalpacking.shared.entities.OutboxMessage;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
 public class ExportPackagesBillingService {
 
-    private final BillingConfig billingConfig;
-
-    private final BillingRepository billingRepository;
+    private final OutboxMessageRepository outboxMessageRepository;
 
     public void addBillingForExportedPackages(String userId, List<Truck> trucks) {
 
-        String MESSAGE = "Разгрузка;Всего машин;%d посылок;%.2f рублей";
-        var segments = trucks.stream().mapToInt(Truck::occupiedSegmentsCount).sum();
-        var cost = billingConfig.getUnloadingCostPerSegment().multiply(BigDecimal.valueOf(segments));
+        String billingTopic = "export-packages-billing-topic-out-0";
 
-        billingRepository.save(new Billing(
+        var segments = trucks.stream().mapToInt(Truck::occupiedSegmentsCount).sum();
+
+        var billing = new Billing(
                 userId,
-                MESSAGE.formatted(
-                        LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        trucks.size(),
-                        trucks.stream().mapToInt(Truck::getParcelsCount).sum(),
-                        cost),
                 "разгрузка",
-                LocalDate.now(),
-                segments,
-                cost));
+                LocalDate.now().toString(),
+                segments);
+
+        var gson = new GsonBuilder().setPrettyPrinting().create();
+        var outboxMessage = new OutboxMessage();
+        outboxMessage.setTopic(billingTopic);
+        outboxMessage.setMessage(gson.toJson(billing));
+
+        outboxMessageRepository.save(outboxMessage);
     }
 }

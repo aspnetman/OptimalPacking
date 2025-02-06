@@ -31,7 +31,7 @@ import ru.liga.optimalpacking.packages.importpackages.businessrules.ImportPackag
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.DensePacking;
 import ru.liga.optimalpacking.packages.importpackages.packingalgorithms.UniformPacking;
 import ru.liga.optimalpacking.packages.shared.ParcelsRepository;
-import ru.liga.optimalpacking.packages.shared.BillingRepository;
+import ru.liga.optimalpacking.shared.OutboxMessageRepository;
 
 @Configuration
 public class AppConfig {
@@ -107,11 +107,9 @@ public class AppConfig {
 
     @Bean
     public ExportPackagesBillingService exportPackagesBillingService(
-            BillingConfig billingConfig,
-            BillingRepository billingRepository) {
+            OutboxMessageRepository outboxMessageRepository) {
         return new ExportPackagesBillingService(
-                billingConfig,
-                billingRepository);
+                outboxMessageRepository);
     }
 
     @Bean
@@ -172,11 +170,9 @@ public class AppConfig {
 
     @Bean
     public ImportPackagesBillingService importPackagesBillingService(
-            BillingConfig billingConfig,
-            BillingRepository billingRepository) {
+            OutboxMessageRepository outboxMessageRepository) {
         return new ImportPackagesBillingService(
-                billingConfig,
-                billingRepository);
+                outboxMessageRepository);
     }
 
     @Bean

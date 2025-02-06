@@ -1,39 +1,37 @@
 package ru.liga.optimalpacking.packages.importpackages;
 
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-import ru.liga.optimalpacking.config.BillingConfig;
 import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
-import ru.liga.optimalpacking.packages.shared.BillingRepository;
+import ru.liga.optimalpacking.shared.OutboxMessageRepository;
 import ru.liga.optimalpacking.packages.shared.entities.Billing;
+import ru.liga.optimalpacking.shared.entities.OutboxMessage;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
 public class ImportPackagesBillingService {
 
-    private final BillingConfig billingConfig;
-
-    private final BillingRepository billingRepository;
+    private final OutboxMessageRepository outboxMessageRepository;
 
     public void addBillingForImportedPackages(String userId, List<Truck> trucks) {
 
-        String MESSAGE = "Погрузка;Всего машин;%d посылок;%.2f рублей";
-        var segments = trucks.stream().mapToInt(Truck::getOccupiedSegmentsCount).sum();
-        var cost = billingConfig.getLoadingCostPerSegment().multiply(BigDecimal.valueOf(segments));
+        String billingTopic = "import-packages-billing-topic-out-0";
 
-        billingRepository.save(new Billing(
+        var billing = new Billing(
                 userId,
-                MESSAGE.formatted(
-                        LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        trucks.size(),
-                        trucks.stream().mapToInt(Truck::getParcelsCount).sum(),
-                        cost),
                 "погрузка",
-                LocalDate.now(),
-                segments,
-                cost));
+                LocalDate.now().toString(),
+                trucks.stream().mapToInt(Truck::getOccupiedSegmentsCount).sum());
+
+        var gson = new GsonBuilder().setPrettyPrinting().create();
+        var outboxMessage = new OutboxMessage();
+        var message = gson.toJson(billing);
+
+        outboxMessage.setTopic(billingTopic);
+        outboxMessage.setMessage(message);
+
+        outboxMessageRepository.save(outboxMessage);
     }
 }

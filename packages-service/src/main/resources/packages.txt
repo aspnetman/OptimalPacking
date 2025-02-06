@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Штанга",
+    "width": 3,
+    "height": 3,
+    "symbol": "#"
+  },
+  {
+    "name": "Квадрат",
+    "width": 2,
+    "height": 2,
+    "symbol": "#"
+  },
+  {
+    "name": "Треугольник",
+    "width": 3,
+    "height": 3,
+    "symbol": "#"
+  },
+  {
+    "name": "Куб",
+    "width": 3,
+    "height": 3,
+    "symbol": "#"
+  },
+  {
+    "name": "P-образная фигура",
+    "width": 3,
+    "height": 3,
+    "symbol": "#"
+  },
+  {
+    "name": "L-образная фигура",
+    "width": 3,
+    "height": 3,
+    "symbol": "#"
+  }
+]

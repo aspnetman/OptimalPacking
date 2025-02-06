@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -142,10 +143,7 @@ public class PackagesController {
     /**
      * Погрузка посылок
      *
-     * @param userId           Идентификатор пользователя
-     * @param file             Файл с данными по посылкам для погрузки
-     * @param maxTrucks        Максимальное число грузовиков
-     * @param packingAlgorithm   Алгоритм упаковки
+     * @param command          Команда погрузки
      */
     @PostMapping("/import")
     @Operation(summary = "Погрузка посылок")
@@ -161,12 +159,9 @@ public class PackagesController {
                             schema = @Schema(implementation = Response.class)))
     })
     public ResponseEntity<Response<ImportPackagesResponse>> importPackages(
-            @Parameter(description = "Идентификатор пользователя") @RequestParam String userId,
-            @Parameter(description = "Файл с данными по посылкам для погрузки") @RequestParam String file,
-            @Parameter(description = "Максимальное число грузовиков") @RequestParam(defaultValue = "10") int maxTrucks,
-            @Parameter(description = "Алгоритм упаковки") @RequestParam(required = false) PackingAlgorithm packingAlgorithm) {
+            @RequestBody ImportPackagesCommand command) {
         return new ResponseEntity<>(
-                new Response<>(ResponseCode.OK, pipeline.send(new ImportPackagesCommand(userId, file, maxTrucks, packingAlgorithm))),
+                new Response<>(ResponseCode.OK, pipeline.send(command)),
                 HttpStatus.OK);
     }
 

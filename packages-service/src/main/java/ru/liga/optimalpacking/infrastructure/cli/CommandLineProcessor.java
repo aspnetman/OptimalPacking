@@ -7,6 +7,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
 import ru.liga.optimalpacking.infrastructure.controller.PackagesController;
+import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
 import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
 
 @Slf4j
@@ -46,10 +47,11 @@ public class CommandLineProcessor {
             printHelp(optionsFactory);
         } else if (cmd.hasOption("import")) {
             consoleController.importPackages(
+                    new ImportPackagesCommand(
                     cmd.getOptionValue("userId"),
                     cmd.getOptionValue("file"),
                     Integer.parseInt(cmd.getOptionValue("maxTrucks")),
-                    PackingAlgorithm.valueOf(cmd.getOptionValue("packingAlgorithm")));
+                    PackingAlgorithm.valueOf(cmd.getOptionValue("packingAlgorithm"))));
         }
     }
 

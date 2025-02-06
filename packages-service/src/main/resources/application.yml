@@ -8,10 +8,38 @@
     interactive:
       enabled: true
 
+  cloud:
+    function:
+      definition: optimal-packing
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9093
+          auto-create-topics: true
+          auto-add-partitions: true
+      bindings:
+        import-packages-billing-topic-out-0:
+          destination: import-packages-billing-topic
+          content-type: application/json
+          group: import-packages
+          producer:
+            partition-count: 10
+        export-packages-billing-topic-out-0:
+          destination: export-packages-billing-topic
+          content-type: application/json
+          group: export-packages
+          producer:
+            partition-count: 10
+  kafka:
+    bootstrap-servers: localhost:9093
+    producer:
+      client-id: optimal-packing
+
 springdoc:
   swagger-ui:
     enabled: true
 
-billing:
-  loading-cost-per-segment: 80
-  unloading-cost-per-segment: 50
+schedule:
+  process-outbox-messages:
+    interval: 1000
+

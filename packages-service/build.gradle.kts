@@ -13,6 +13,8 @@ object Versions {
     const val junitBom = "5.10.0"
     const val junitJupiter = "5.10.0"
     const val springdocOpenApiVersion = "2.8.3"
+    const val springCloudStarterStreamKafka = "4.2.0"
+    const val shedlock = "5.16.0"
 }
 
 plugins {
@@ -52,6 +54,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${Versions.springdocOpenApiVersion}")
+    implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka:${Versions.springCloudStarterStreamKafka}")
+    implementation("net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${Versions.shedlock}")
+    implementation("net.javacrumbs.shedlock:shedlock-spring:${Versions.shedlock}")
+
 
     runtimeOnly("org.postgresql:postgresql")
 
