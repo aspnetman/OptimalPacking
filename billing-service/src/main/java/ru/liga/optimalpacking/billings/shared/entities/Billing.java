@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -33,20 +33,11 @@ public class Billing {
 
     @Id
     @Column(name = "date")
-    private LocalDate date;
+    private OffsetDateTime date;
 
     @Column(name = "quantity")
     private int quantity;
 
     @Column(name = "cost")
     private BigDecimal cost;
-
-    /**
-     * Метод для получения количества сегментов
-     *
-     * @return количество сегментов
-     */
-    public int getSegments() {
-        return quantity;
-    }
 }

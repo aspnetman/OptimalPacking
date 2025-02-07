@@ -3,7 +3,7 @@
     user_id     VARCHAR(255) NOT NULL,
     description TEXT,
     type        VARCHAR(50),
-    date        DATE,
+    date        TIMESTAMPTZ NOT NULL,
     quantity    INT,
     cost        DECIMAL(19, 2),
     CONSTRAINT pk_billings_user_date_type PRIMARY KEY (user_id, date, type)

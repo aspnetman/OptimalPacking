@@ -1,4 +1,12 @@
 ﻿spring:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
   datasource:
     url: jdbc:postgresql://localhost:8888/optimalpacking
     username: optimalpacking-user
@@ -18,16 +26,10 @@
           auto-create-topics: true
           auto-add-partitions: true
       bindings:
-        import-packages-billing-topic-out-0:
-          destination: import-packages-billing-topic
+        billing-topic-out-0:
+          destination: billing-topic
           content-type: application/json
-          group: import-packages
-          producer:
-            partition-count: 10
-        export-packages-billing-topic-out-0:
-          destination: export-packages-billing-topic
-          content-type: application/json
-          group: export-packages
+          group: packages
           producer:
             partition-count: 10
   kafka:
@@ -42,4 +44,5 @@ springdoc:
 schedule:
   process-outbox-messages:
     interval: 1000
+    batch-size: 1000
 

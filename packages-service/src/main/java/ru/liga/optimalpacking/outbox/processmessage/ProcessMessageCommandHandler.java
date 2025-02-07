@@ -39,6 +39,7 @@ public class ProcessMessageCommandHandler implements Command.Handler<ProcessMess
     }
 
     private Message<String> buildKafkaMessage(OutboxMessage message) {
+
         return MessageBuilder
                 .withPayload(message.getMessage())
                 .setHeader(KafkaHeaders.KEY, message.getId().toString().getBytes(StandardCharsets.UTF_8))

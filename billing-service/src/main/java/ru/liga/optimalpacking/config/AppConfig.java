@@ -12,8 +12,15 @@ import ru.liga.optimalpacking.billings.addbilling.AddBillingMapper;
 import ru.liga.optimalpacking.billings.getbillingdetail.GetBillingDetailQueryHandler;
 import ru.liga.optimalpacking.billings.shared.BillingRepository;
 
+import java.time.Clock;
+
 @Configuration
 public class AppConfig {
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemUTC();
+    }
 
     @Bean
     Pipeline pipeline(ObjectProvider<Command.Handler> commandHandlers,

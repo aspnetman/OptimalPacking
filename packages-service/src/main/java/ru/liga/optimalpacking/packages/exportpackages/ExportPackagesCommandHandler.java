@@ -4,6 +4,8 @@ import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.liga.optimalpacking.packages.exportpackages.dto.ExportPackagesResponse;
+import ru.liga.optimalpacking.packages.exportpackages.entities.Truck;
+import ru.liga.optimalpacking.shared.BillingService;
 
 /**
  * Принимает загруженные машины и отдаёт на выход файл со списком посылок
@@ -19,7 +21,7 @@ public class ExportPackagesCommandHandler implements Command.Handler<ExportPacka
 
     private final ExportPackagesParcelsRepository exportPackagesParcelsRepository;
 
-    private final ExportPackagesBillingService exportPackagesBillingService;
+    private final BillingService billingService;
 
     @Override
     public ExportPackagesResponse handle(ExportPackagesCommand exportPackagesCommand) {
@@ -30,7 +32,9 @@ public class ExportPackagesCommandHandler implements Command.Handler<ExportPacka
                 trucks,
                 fileName);
 
-        exportPackagesBillingService.addBillingForExportedPackages(exportPackagesCommand.userId(), trucks);
+        billingService.addBilling(exportPackagesCommand.userId(),
+                trucks.stream().mapToInt(Truck::occupiedSegmentsCount).sum(),
+                "разгрузка");
 
         return new ExportPackagesResponse(fileName);
     }

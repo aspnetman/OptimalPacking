@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.liga.optimalpacking.packages.importpackages.businessrules.ImportPackagesBusinessRulesChecker;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
+import ru.liga.optimalpacking.packages.importpackages.entities.Truck;
+import ru.liga.optimalpacking.shared.BillingService;
 
 @Component
 @Slf4j
@@ -20,7 +22,7 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
 
     private final FileParcelsReader fileParcelsReader;
 
-    private final ImportPackagesBillingService importPackagesBillingService;
+    private final BillingService billingService;
 
     @Override
     public ImportPackagesResponse handle(ImportPackagesCommand command) {
@@ -32,7 +34,10 @@ public class ImportPackagesCommandHandler implements Command.Handler<ImportPacka
 
         importPackagesBusinessRulesChecker.checkFilledTrucksExceededMaxValue(packingResult.notPackedParcels());
 
-        importPackagesBillingService.addBillingForImportedPackages(command.userId(), packingResult.trucks());
+        billingService.addBilling(
+                command.userId(),
+                packingResult.trucks().stream().mapToInt(Truck::getOccupiedSegmentsCount).sum(),
+                "погрузка");
 
         trucksRepository.saveResultsToJson(packingResult.trucks(), "results.json");
 

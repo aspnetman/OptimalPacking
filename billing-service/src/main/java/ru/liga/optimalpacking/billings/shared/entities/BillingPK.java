@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.IdClass;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @IdClass(BillingPK.class)
 public class BillingPK implements Serializable {
@@ -12,7 +12,7 @@ public class BillingPK implements Serializable {
     private String userId;
 
     @Column(name = "date")
-    private LocalDate date;
+    private OffsetDateTime date;
 
     @Column(name = "type")
     private String type;

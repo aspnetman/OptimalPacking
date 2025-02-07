@@ -1,4 +1,12 @@
 ﻿spring:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
   datasource:
     url: jdbc:postgresql://localhost:8889/optimalpacking-billing
     username: optimalpacking-billing-user
@@ -7,6 +15,19 @@
   shell:
     interactive:
       enabled: true
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9093
+      bindings:
+        addBilling-in-0:
+          destination: billing-topic
+          content-type: application/json
+          group: packages
+  kafka:
+    bootstrap-servers: localhost:9093
 
 springdoc:
   swagger-ui:

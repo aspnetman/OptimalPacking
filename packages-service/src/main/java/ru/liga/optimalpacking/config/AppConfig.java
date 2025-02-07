@@ -15,14 +15,13 @@ import ru.liga.optimalpacking.packages.deleteparcel.businessrules.DeleteParcelBu
 import ru.liga.optimalpacking.packages.editparcel.EditParcelCommandHandler;
 import ru.liga.optimalpacking.packages.editparcel.EditParcelMapper;
 import ru.liga.optimalpacking.packages.editparcel.businessrules.EditParcelBusinessRulesChecker;
-import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesBillingService;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.exportpackages.ExportPackagesParcelsRepository;
 import ru.liga.optimalpacking.packages.exportpackages.TrucksProvider;
 import ru.liga.optimalpacking.packages.getparcel.GetParcelQueryHandler;
 import ru.liga.optimalpacking.packages.getparcels.GetParcelsQueryHandler;
 import ru.liga.optimalpacking.packages.importpackages.FileParcelsReader;
-import ru.liga.optimalpacking.packages.importpackages.ImportPackagesBillingService;
+import ru.liga.optimalpacking.shared.BillingService;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommandHandler;
 import ru.liga.optimalpacking.packages.importpackages.PackingService;
 import ru.liga.optimalpacking.packages.importpackages.TrucksRepository;
@@ -106,21 +105,14 @@ public class AppConfig {
     }
 
     @Bean
-    public ExportPackagesBillingService exportPackagesBillingService(
-            OutboxMessageRepository outboxMessageRepository) {
-        return new ExportPackagesBillingService(
-                outboxMessageRepository);
-    }
-
-    @Bean
     public ExportPackagesCommandHandler exportPackagesCommandHandler(
             TrucksProvider trucksProvider,
             ExportPackagesParcelsRepository exportPackagesParcelsRepository,
-            ExportPackagesBillingService exportPackagesBillingService) {
+            BillingService billingService) {
         return new ExportPackagesCommandHandler(
                 trucksProvider,
                 exportPackagesParcelsRepository,
-                exportPackagesBillingService);
+                billingService);
     }
 
     @Bean
@@ -169,9 +161,9 @@ public class AppConfig {
     }
 
     @Bean
-    public ImportPackagesBillingService importPackagesBillingService(
+    public BillingService importPackagesBillingService(
             OutboxMessageRepository outboxMessageRepository) {
-        return new ImportPackagesBillingService(
+        return new BillingService(
                 outboxMessageRepository);
     }
 
@@ -181,12 +173,12 @@ public class AppConfig {
             ImportPackagesBusinessRulesChecker importPackagesBusinessRulesChecker,
             PackingService packingService,
             FileParcelsReader fileParcelsReader,
-            ImportPackagesBillingService importPackagesBillingService) {
+            BillingService billingService) {
         return new ImportPackagesCommandHandler(
                 trucksRepository,
                 importPackagesBusinessRulesChecker,
                 packingService,
                 fileParcelsReader,
-                importPackagesBillingService);
+                billingService);
     }
 }
