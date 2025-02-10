@@ -1,13 +1,10 @@
 package ru.liga.optimalpacking.shared;
 
-import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import ru.liga.optimalpacking.packages.shared.entities.Billing;
 import ru.liga.optimalpacking.shared.entities.OutboxMessage;
 import ru.liga.optimalpacking.shared.util.JsonUtil;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
