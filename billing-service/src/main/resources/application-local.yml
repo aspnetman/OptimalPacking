@@ -1,0 +1,22 @@
+﻿spring:
+  datasource:
+    url: jdbc:postgresql://localhost:8889/optimalpacking-billing
+    username: optimalpacking-billing-user
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  shell:
+    interactive:
+      enabled: true
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9093
+      bindings:
+        addBilling-in-0:
+          destination: billing-topic
+          content-type: application/json
+          group: packages
+  kafka:
+    bootstrap-servers: localhost:9093

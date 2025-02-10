@@ -7,42 +7,6 @@
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 
-  datasource:
-    url: jdbc:postgresql://localhost:8888/optimalpacking
-    username: optimalpacking-user
-    password: 123456
-    driver-class-name: org.postgresql.Driver
-  shell:
-    interactive:
-      enabled: true
-
-  cloud:
-    function:
-      definition: optimal-packing
-    stream:
-      kafka:
-        binder:
-          brokers: localhost:9093
-          auto-create-topics: true
-          auto-add-partitions: true
-      bindings:
-        billing-topic-out-0:
-          destination: billing-topic
-          content-type: application/json
-          group: packages
-          producer:
-            partition-count: 10
-  kafka:
-    bootstrap-servers: localhost:9093
-    producer:
-      client-id: optimal-packing
-
 springdoc:
   swagger-ui:
     enabled: true
-
-schedule:
-  process-outbox-messages:
-    interval: 1000
-    batch-size: 1000
-

@@ -16,7 +16,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @Data
 @Valid
 @NoArgsConstructor
-public class Response<DataType> {
+public class Response<T> {
     private static final int RESULT_TYPE_POSITION = 6;
     private static final char SUCCESS = '0';
 
@@ -26,18 +26,18 @@ public class Response<DataType> {
 
     @Nullable
     @Schema(description = "Полезная нагрузка ответа")
-    private DataType data;
+    private T data;
 
     public Response(@NotNull ResponseCode responseCode) {
         this.result = new ResponseMetaData(responseCode);
     }
 
-    public Response(@NotNull ResponseCode responseCode, @Nullable DataType data) {
+    public Response(@NotNull ResponseCode responseCode, @Nullable T data) {
         this.result = new ResponseMetaData(responseCode);
         this.data = data;
     }
 
-    public ResponseEntity<Response<DataType>> asResponseEntity() {
+    public ResponseEntity<Response<T>> asResponseEntity() {
         return ResponseEntity.status(result.getStatus()).body(this);
     }
 }
