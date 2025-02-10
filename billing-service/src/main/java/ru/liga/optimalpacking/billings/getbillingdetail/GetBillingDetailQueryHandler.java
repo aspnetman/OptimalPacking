@@ -2,7 +2,7 @@ package ru.liga.optimalpacking.billings.getbillingdetail;
 
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import ru.liga.optimalpacking.billings.getbillingdetail.dto.GetBillingDetailResponse;
 import ru.liga.optimalpacking.billings.shared.BillingRepository;
@@ -16,7 +16,7 @@ public class GetBillingDetailQueryHandler implements Command.Handler<GetBillingD
 
     private final BillingRepository billingRepository;
 
-    @CacheEvict(value = "billings", key = "#getBillingDetailQuery.userId() + '-range'")
+    @Cacheable(value = "billings", key = "#getBillingDetailQuery.userId() + '-range'")
     @Override
     public GetBillingDetailResponse handle(GetBillingDetailQuery getBillingDetailQuery) {
 

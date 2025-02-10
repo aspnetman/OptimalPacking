@@ -14,6 +14,7 @@ object Versions {
     const val junitJupiter = "5.10.0"
     const val springdocOpenApiVersion = "2.8.3"
     const val springCloudStarterStreamKafka = "4.2.0"
+    const val caffeine = "3.2.0"
 }
 
 plugins {
@@ -54,6 +55,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${Versions.springdocOpenApiVersion}")
     implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka:${Versions.springCloudStarterStreamKafka}")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("com.github.ben-manes.caffeine:caffeine:${Versions.caffeine}")
 
     runtimeOnly("org.postgresql:postgresql")
 
