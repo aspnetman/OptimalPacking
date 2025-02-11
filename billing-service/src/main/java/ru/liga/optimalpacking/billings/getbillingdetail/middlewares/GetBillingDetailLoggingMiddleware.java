@@ -19,11 +19,7 @@ public class GetBillingDetailLoggingMiddleware implements Command.Middleware {
                     ((GetBillingDetailQuery) c).from(),
                     ((GetBillingDetailQuery) c).to());
 
-            var result = next.invoke();
-
-            log.info("Счёт: \n {}", ((GetBillingDetailResponse) result).billingDetail());
-
-            return result;
+            return next.invoke();
         } else {
             return next.invoke();
         }

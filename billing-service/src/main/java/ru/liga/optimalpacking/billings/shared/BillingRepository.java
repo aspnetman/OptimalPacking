@@ -5,8 +5,9 @@ import ru.liga.optimalpacking.billings.shared.entities.Billing;
 import ru.liga.optimalpacking.billings.shared.entities.BillingPK;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface BillingRepository extends JpaRepository<Billing, BillingPK> {
-    List<Billing> findByUserIdAndDateBetweenOrderByDateDesc(String userId, LocalDate fromDate, LocalDate toDate);
+    List<Billing> findByUserIdAndDateBetweenOrderByDateDesc(String userId, OffsetDateTime fromDate, OffsetDateTime toDate);
 }

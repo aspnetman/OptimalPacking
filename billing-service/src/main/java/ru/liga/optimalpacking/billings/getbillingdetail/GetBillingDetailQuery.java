@@ -5,9 +5,10 @@ import ru.liga.optimalpacking.billings.getbillingdetail.dto.GetBillingDetailResp
 import ru.liga.optimalpacking.billings.shared.middlewares.IRequestNotFound;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 
-public record GetBillingDetailQuery(String userId, LocalDate from, LocalDate to)
+public record GetBillingDetailQuery(String userId, OffsetDateTime from, OffsetDateTime to)
         implements Command<GetBillingDetailResponse>, IRequestNotFound {
 
     @Override

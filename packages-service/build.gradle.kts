@@ -68,6 +68,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.mockito:mockito-junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
 
     testAnnotationProcessor("org.projectlombok:lombok:${Versions.lombok}")
     testAnnotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")

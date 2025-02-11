@@ -34,7 +34,6 @@ import ru.liga.optimalpacking.packages.getparcels.GetParcelsQuery;
 import ru.liga.optimalpacking.packages.getparcels.dto.GetParcelsResponse;
 import ru.liga.optimalpacking.packages.importpackages.ImportPackagesCommand;
 import ru.liga.optimalpacking.packages.importpackages.dto.ImportPackagesResponse;
-import ru.liga.optimalpacking.packages.importpackages.dto.PackingAlgorithm;
 import ru.liga.optimalpacking.packages.shared.dto.Response;
 import ru.liga.optimalpacking.packages.shared.dto.ResponseCode;
 

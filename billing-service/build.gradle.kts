@@ -65,6 +65,9 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:${Versions.junitBom}"))
     testImplementation("org.junit.jupiter:junit-jupiter:${Versions.junitJupiter}")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.mockito:mockito-junit-jupiter")
 

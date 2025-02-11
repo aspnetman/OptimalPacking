@@ -30,9 +30,6 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @Getter
 @Setter
 public class ResponseMetaData {
-    @Schema(description = "Дата и время", requiredMode = REQUIRED)
-    private LocalDateTime timestamp;
-
     @Min(value = 100)
     @Max(value = 527)
     @Schema(description = "Http статус ответа", requiredMode = REQUIRED)
@@ -48,7 +45,6 @@ public class ResponseMetaData {
     private String message;
 
     public ResponseMetaData(@NonNull ResponseCode responseCode) {
-        this.timestamp = LocalDateTime.now();
         this.status = responseCode.getStatus();
         this.code = responseCode.getCode();
         this.message = responseCode.getMessage();

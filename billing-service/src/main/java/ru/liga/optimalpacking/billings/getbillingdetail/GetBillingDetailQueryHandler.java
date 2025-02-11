@@ -29,9 +29,6 @@ public class GetBillingDetailQueryHandler implements Command.Handler<GetBillingD
             return null;
         }
 
-        return new GetBillingDetailResponse(billings
-                .stream()
-                .map(Billing::getDescription)
-                .collect(Collectors.joining("\n")));
+        return new GetBillingDetailResponse(billings);
     }
 }
