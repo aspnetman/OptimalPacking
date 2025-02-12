@@ -1,17 +1,14 @@
 package ru.liga.packages.billings.container;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 @SpringBootTest(properties = "spring.profiles.active=test")
-@ExtendWith(SpringExtension.class)
 public abstract class AbstractPostgresContainer {
 
     final static String POSTGRES_VERSION = "postgres:latest";
