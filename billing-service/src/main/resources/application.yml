@@ -1,0 +1,18 @@
+﻿spring:
+  application:
+    name: optimal-packing-billing
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+billing:
+  loading-cost-per-segment: 80
+  unloading-cost-per-segment: 50
